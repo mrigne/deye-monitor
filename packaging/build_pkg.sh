@@ -31,7 +31,10 @@ if [ -n "${APP_SIGN_IDENTITY:-}" ]; then
     echo "==> Signing with: $APP_SIGN_IDENTITY"
     SIGN_ARGS=(CODE_SIGN_STYLE=Manual DEVELOPMENT_TEAM="$TEAM_ID"
                CODE_SIGN_IDENTITY="$APP_SIGN_IDENTITY"
-               ENABLE_HARDENED_RUNTIME=YES OTHER_CODE_SIGN_FLAGS=--timestamp)
+               ENABLE_HARDENED_RUNTIME=YES OTHER_CODE_SIGN_FLAGS=--timestamp
+               # Xcode otherwise injects get-task-allow (debugger attach),
+               # which makes notarization reject the build.
+               CODE_SIGN_INJECT_BASE_ENTITLEMENTS=NO)
 else
     echo "==> No APP_SIGN_IDENTITY: ad-hoc signing (runs on this Mac; other Macs will warn)"
 fi
@@ -84,7 +87,14 @@ if [ -n "${PKG_SIGN_IDENTITY:-}" ]; then
     fi
     if [ ${#NOTARY[@]} -gt 0 ]; then
         echo "==> Notarizing (usually 1–5 min)"
-        xcrun notarytool submit "$PKG" "${NOTARY[@]}" --wait
+        OUT=$(xcrun notarytool submit "$PKG" "${NOTARY[@]}" --wait 2>&1) || true
+        echo "$OUT"
+        SUB_ID=$(echo "$OUT" | awk '/^ *id: /{print $2; exit}')
+        if ! echo "$OUT" | grep -q "status: Accepted"; then
+            echo "==> Notarization was rejected. Apple's log:"
+            [ -n "$SUB_ID" ] && xcrun notarytool log "$SUB_ID" "${NOTARY[@]}" || true
+            exit 1
+        fi
         xcrun stapler staple "$PKG"
         spctl --assess --type install -vv "$PKG" || true
     else
