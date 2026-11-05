@@ -145,8 +145,10 @@ The app is independent and states in its description and in Settings → About t
 A screen recording with a real inverter is attached.
 ```
 
-**Attachment**: 20–40 с запису екрана з реальним інвертором: введення IP/SN → живі дані →
-віджет. Запис робиться через Пункт керування → Запис екрана.
+**Attachment**: `appstore/review/solar-glance-review.mp4` — 35 с, реальний інвертор:
+віджети «Not set up» → введення IP/SN → живі дані → pull-to-refresh → параметри →
+віджети з живими даними. Файл не в git, бо в ньому видно IP і SN логера.
+Перезаписати можна через Пункт керування → Запис екрана на телефоні.
 
 ---
 
