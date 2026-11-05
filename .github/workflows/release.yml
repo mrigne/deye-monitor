@@ -28,7 +28,7 @@ jobs:
     env:
       HAS_CERTS: ${{ secrets.MACOS_CERTS_P12 != '' }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
       - name: Select Xcode 16
         run: sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)"
