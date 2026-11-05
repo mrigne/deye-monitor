@@ -20,6 +20,14 @@ final class MonitorStore: ObservableObject {
     /// 0 = auto-detect, 1 or 3 = forced
     @Published var phaseMode: Int { didSet { Self.d.set(phaseMode, forKey: "PhaseMode"); phases = nil; restart() } }
     @Published var pollSeconds: Int { didSet { Self.d.set(pollSeconds, forKey: "PollSeconds"); restart() } }
+    /// Sample data instead of a real inverter (try-out, App Review, screenshots).
+    @Published var demoMode: Bool {
+        didSet {
+            Self.d.set(demoMode, forKey: "DemoMode")
+            summary = nil; registers = [:]; lastError = nil; phases = nil
+            restart(); reloadWidget(force: true)
+        }
+    }
     /// Parameter ids (see ParamCatalog) shown in the menu bar, in order.
     @Published var menuBarParams: [String] { didSet { Self.d.set(menuBarParams, forKey: "MenuBarParams") } }
     /// Extra parameter ids listed in the drop-down panel, in order.
@@ -43,6 +51,7 @@ final class MonitorStore: ObservableObject {
         pollSeconds = Self.d.integer(forKey: "PollSeconds")
         menuBarParams = Self.d.stringArray(forKey: "MenuBarParams") ?? []
         panelParams = Self.d.stringArray(forKey: "PanelParams") ?? []
+        demoMode = Self.d.bool(forKey: "DemoMode") || ProcessInfo.processInfo.arguments.contains("-demo")
         restart()
     }
 
@@ -57,10 +66,11 @@ final class MonitorStore: ObservableObject {
         #endif
     }
 
-    var isConfigured: Bool { !inverterIP.trimmingCharacters(in: .whitespaces).isEmpty && UInt32(loggerSerial) != nil }
+    var isConfigured: Bool { demoMode || !inverterIP.trimmingCharacters(in: .whitespaces).isEmpty && UInt32(loggerSerial) != nil }
 
     /// Call after editing IP / serial.
     func applyConnectionSettings(ip: String, serial: String) {
+        if demoMode { demoMode = false }
         inverterIP = ip.trimmingCharacters(in: .whitespacesAndNewlines)
         loggerSerial = serial.trimmingCharacters(in: .whitespacesAndNewlines)
         phases = nil
@@ -92,6 +102,16 @@ final class MonitorStore: ObservableObject {
     }
 
     private func readNow() async {
+        if demoMode {
+            let r = DemoData.reading()
+            var s = r.summary
+            s.pollInterval = pollSeconds
+            summary = s; registers = r.raw; phases = 1
+            lastRead = Date(); lastError = nil
+            writeSnapshot()
+            reloadWidget(force: false)
+            return
+        }
         guard isConfigured else {
             lastError = "Set inverter IP and logger serial in Settings"
             writeSnapshot()

@@ -82,11 +82,13 @@ Identifiers → ідентифікатор → **Remove**.
 | Поле | iPhone | Mac |
 |---|---|---|
 | Platforms | iOS | macOS |
-| Name | унікальна назва в App Store, напр. **"Solar Monitor for Deye"** | можна ту саму |
+| Name | **Solar Glance: Inverter Monitor** | **Solar Glance – Menu Bar** (має відрізнятися від iOS) |
 | Primary language | English (або Ukrainian) | |
 | Bundle ID | `ua.com.mrigne.deyemonitor.ios` | `ua.com.mrigne.deyemonitor` |
 | SKU | `deye-monitor-ios` | `deye-monitor-mac` |
 | User Access | Full Access | Full Access |
+
+Готові тексти, підзаголовки, опис і скріншоти: [appstore/LISTING.md](../appstore/LISTING.md).
 
 > ⚠️ **Назва.** "Deye" — чужа торгова марка. Назву "Deye Monitor" Apple
 > найімовірніше відхилить (Guideline 5.2.1). Беріть щось на зразок *"Solar Monitor

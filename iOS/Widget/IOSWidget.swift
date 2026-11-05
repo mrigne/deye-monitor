@@ -25,6 +25,12 @@ struct LiveProvider: TimelineProvider {
     }
 
     static func load() -> DeyeEntry {
+        if SharedSettings.demoMode {
+            let r = DemoData.reading()
+            var s = r.summary
+            s.ageSeconds = 0
+            return DeyeEntry(date: .now, summary: s, error: nil, registers: r.raw, phases: 1)
+        }
         var liveError: String?
         let ip = SharedSettings.inverterIP
         if !ip.isEmpty, let serial = SharedSettings.loggerSerial {
@@ -58,14 +64,14 @@ struct LiveProvider: TimelineProvider {
 
 /// Tap ↻ on the widget: the system re-runs the timeline (a fresh read) after this returns.
 struct RefreshIntent: AppIntent {
-    static var title: LocalizedStringResource = "Refresh Deye Monitor"
+    static var title: LocalizedStringResource = "Refresh"
     func perform() async throws -> some IntentResult { .result() }
 }
 
 struct HomeWidgetView: View {
     let entry: DeyeEntry
     var body: some View {
-        DeyeWidgetView(entry: entry, hint: "Open Deye Monitor and set the inverter IP and logger SN")
+        DeyeWidgetView(entry: entry, hint: "Open \(AppInfo.name) and set the inverter IP and logger SN")
             .overlay(alignment: .bottomTrailing) {
                 if entry.summary != nil {
                     Button(intent: RefreshIntent()) {
@@ -82,7 +88,7 @@ struct HomeWidgetView: View {
 struct DeyeHomeWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "DeyeMonitorWidget", provider: LiveProvider()) { HomeWidgetView(entry: $0) }
-            .configurationDisplayName("Deye Monitor")
+            .configurationDisplayName(AppInfo.name)
             .description("Solar, battery, load and grid from your inverter.")
             .supportedFamilies([.systemSmall, .systemMedium])
     }
@@ -149,7 +155,7 @@ struct LockWidgetView: View {
 struct DeyeLockWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "DeyeMonitorLock", provider: LiveProvider()) { LockWidgetView(entry: $0) }
-            .configurationDisplayName("Deye Monitor")
+            .configurationDisplayName(AppInfo.name)
             .description("Battery and grid at a glance. Pick the rectangular widget's values in the app.")
             .supportedFamilies([.accessoryCircular, .accessoryRectangular, .accessoryInline])
     }

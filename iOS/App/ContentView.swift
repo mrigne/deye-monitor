@@ -12,6 +12,13 @@ struct ContentView: View {
                     Section {
                         Text("Enter your inverter's IP address and the data logger serial number to start.")
                         Button("Set up connection") { showSettings = true }
+                        Button("Try demo (no inverter needed)") { store.demoMode = true }
+                    }
+                }
+                if store.demoMode && !ProcessInfo.processInfo.arguments.contains("-screenshots") {
+                    Section {
+                        Label("Demo mode — sample data. Turn it off in Settings.", systemImage: "play.circle")
+                            .font(.footnote).foregroundStyle(.secondary)
                     }
                 }
                 if let s = store.summary {
@@ -28,7 +35,7 @@ struct ContentView: View {
                     }
                 }
             }
-            .navigationTitle("Deye Monitor")
+            .navigationTitle(AppInfo.name)
             .refreshable { await store.refreshNow() }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -142,6 +149,9 @@ struct SettingsView: View {
                 } header: { Text("Connection") } footer: {
                     Text("The phone must be on the same Wi-Fi as the inverter's data logger. Allow Local Network access when iOS asks.")
                 }
+                Section {
+                    Toggle("Demo mode (sample data)", isOn: $store.demoMode)
+                }
                 Section("Inverter") {
                     Picker("Type", selection: $store.phaseMode) {
                         Text("Auto-detect").tag(0)
@@ -153,8 +163,11 @@ struct SettingsView: View {
                     }
                 }
                 Section {
-                    Text("Add the Deye Monitor widget from the Home Screen or Lock Screen editor. Widgets refresh roughly every 15 minutes (iOS limit); tap ↻ on the widget to read now.")
+                    Text("Add the \(AppInfo.name) widget from the Home Screen or Lock Screen editor. Widgets refresh roughly every 15 minutes (iOS limit); tap ↻ on the widget to read now.")
                         .font(.footnote).foregroundStyle(.secondary)
+                }
+                Section("About") {
+                    Text(AppInfo.compatibility).font(.footnote).foregroundStyle(.secondary)
                 }
             }
             .navigationTitle("Settings")

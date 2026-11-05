@@ -31,7 +31,7 @@ struct MonitorProvider: TimelineProvider {
         s.pollError = snap.error
         // App not running (or stuck): flag the data as stale.
         if Date().timeIntervalSince(snap.writtenAt) > Double(max(snap.pollInterval, 30) * 4 + 60) {
-            s.pollError = "Deye Monitor is not running"
+            s.pollError = "\(AppInfo.name) is not running"
         }
         return DeyeEntry(date: .now, summary: s, error: nil)
     }
@@ -40,9 +40,9 @@ struct MonitorProvider: TimelineProvider {
 struct MonitorWidget: Widget {
     var body: some WidgetConfiguration {
         StaticConfiguration(kind: "DeyeMonitorWidget", provider: MonitorProvider()) { entry in
-            DeyeWidgetView(entry: entry, hint: "Open Deye Monitor in the menu bar and set the inverter IP and logger SN")
+            DeyeWidgetView(entry: entry, hint: "Open \(AppInfo.name) in the menu bar and set the inverter IP and logger SN")
         }
-        .configurationDisplayName("Deye Monitor")
+        .configurationDisplayName(AppInfo.name)
         .description("Solar, battery, load and grid read directly from your inverter.")
         .supportedFamilies([.systemSmall, .systemMedium])
     }

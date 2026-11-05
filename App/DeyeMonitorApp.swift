@@ -4,6 +4,8 @@ import SwiftUI
 struct DeyeMonitorApp: App {
     @StateObject private var store = MonitorStore()
 
+    init() { ScreenshotMode.runIfRequested() }
+
     var body: some Scene {
         MenuBarExtra {
             MonitorMenuView()
@@ -13,7 +15,7 @@ struct DeyeMonitorApp: App {
         }
         .menuBarExtraStyle(.window)
 
-        Window("Deye Monitor Parameters", id: "parameters") {
+        Window("\(AppInfo.name) Parameters", id: "parameters") {
             ParametersView()
                 .environmentObject(store)
         }

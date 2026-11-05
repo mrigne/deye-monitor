@@ -93,6 +93,8 @@ enum SharedSettings {
         return v == 1 || v == 3 ? v : nil
     }
 
+    static var demoMode: Bool { defaults.bool(forKey: "DemoMode") }
+
     /// 1 or 3 if the user forced it, else nil.
     static var forcedPhases: Int? {
         let v = defaults.integer(forKey: "PhaseMode")

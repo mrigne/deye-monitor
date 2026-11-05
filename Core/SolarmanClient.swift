@@ -87,7 +87,7 @@ final class SolarmanClient {
                         ok = true
                     } else if err == EHOSTUNREACH {
                         // How macOS reports a Local Network privacy block.
-                        lastError = "No route to host — allow Deye Monitor in System Settings → Privacy & Security → Local Network"
+                        lastError = "No route to host — allow \(AppInfo.name) in System Settings → Privacy & Security → Local Network"
                     } else {
                         lastError = String(cString: strerror(err))
                     }
@@ -96,7 +96,7 @@ final class SolarmanClient {
                 }
             } else if !ok {
                 lastError = errno == EHOSTUNREACH
-                    ? "No route to host — allow Deye Monitor in System Settings → Privacy & Security → Local Network"
+                    ? "No route to host — allow \(AppInfo.name) in System Settings → Privacy & Security → Local Network"
                     : String(cString: strerror(errno))
             }
 

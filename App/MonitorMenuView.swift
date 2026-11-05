@@ -52,7 +52,7 @@ struct MonitorMenuView: View {
                     Text(String(format: "%.0f V", v)).foregroundStyle(.secondary)
                 }
             } else {
-                Label("Deye Monitor", systemImage: "sun.max.fill").font(.headline)
+                Label(AppInfo.name, systemImage: "sun.max.fill").font(.headline)
             }
             Spacer()
             Button {
@@ -175,6 +175,7 @@ struct MonitorMenuView: View {
                 Text("Single-phase").tag(1)
                 Text("Three-phase").tag(3)
             }
+            Toggle("Demo mode (sample data)", isOn: $store.demoMode)
             Picker("Read every", selection: $store.pollSeconds) {
                 Text("10 s").tag(10)
                 Text("30 s").tag(30)
@@ -192,6 +193,8 @@ struct MonitorMenuView: View {
                 }))
                 .id(loginItemTick)
             #endif
+            Text(AppInfo.compatibility).font(.caption2).foregroundStyle(.secondary)
+                .fixedSize(horizontal: false, vertical: true)
         }
     }
 
