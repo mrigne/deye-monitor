@@ -95,7 +95,14 @@ if [ -n "${PKG_SIGN_IDENTITY:-}" ]; then
             [ -n "$SUB_ID" ] && xcrun notarytool log "$SUB_ID" "${NOTARY[@]}" || true
             exit 1
         fi
-        xcrun stapler staple "$PKG"
+        # The ticket can take a moment to propagate, and the CloudKit lookup
+        # stapler uses sometimes drops the connection: retry a few times.
+        for attempt in 1 2 3 4 5 6; do
+            xcrun stapler staple "$PKG" && break
+            [ "$attempt" = 6 ] && { echo "stapling failed"; exit 1; }
+            echo "==> Stapling failed (attempt $attempt), retrying in $((attempt * 15))s"
+            sleep $((attempt * 15))
+        done
         spctl --assess --type install -vv "$PKG" || true
     else
         echo "==> Signed but NOT notarized (no NOTARY_PROFILE / NOTARY_KEY_PATH)"
