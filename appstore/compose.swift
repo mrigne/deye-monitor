@@ -150,3 +150,27 @@ do { // 2: parameters window
     image(c, win, CGRect(x: frame.minX, y: frame.minY + 72, width: ww, height: wh), radius: 0, shadow: 0)
     save(c, "mac/2-parameters.png")
 }
+
+// MARK: App Store header (product page banner) — 3840×1646 and 5244×2950
+
+func header(_ W: Int, _ H: Int, _ name: String) {
+    let c = canvas(W, H)
+    let s = CGFloat(H) / 1646                         // scale from the 3840×1646 layout
+    let icon = load("../packaging/icon/icon-ios-1024.png")
+    let iconSize = 300 * s
+    let left = CGFloat(W) * 0.12
+    let midY = CGFloat(H) / 2
+    image(c, icon, CGRect(x: left, y: midY - 330 * s, width: iconSize, height: iconSize), radius: 68 * s, shadow: 40 * s)
+    text(c, "Solar Glance", CGRect(x: left, y: midY + 10 * s, width: min(1500 * s, CGFloat(W) * 0.42), height: 0), size: 150 * s, weight: .bold, align: .left)
+    text(c, "Your solar inverter at a glance — live solar, battery, home load and grid.\nWidgets for the Home Screen, Lock Screen and Mac menu bar.",
+         CGRect(x: left, y: midY + 200 * s, width: min(1450 * s, CGFloat(W) * 0.40), height: 0), size: 52 * s, weight: .medium, color: rgb(0xFFFFFF, 0.85), align: .left)
+    // two phones on the right, slightly overlapping, running off the bottom
+    let shots = [load("raw/ios-3-widgets.png"), load("raw/ios-1-main.png")]
+    let pw = min(640 * s, CGFloat(W) * 0.165), ph = pw * CGFloat(shots[0].height) / CGFloat(shots[0].width)
+    let right = CGFloat(W) * 0.88
+    image(c, shots[0], CGRect(x: right - pw * 1.75, y: 260 * s, width: pw, height: ph), radius: 80 * s, shadow: 60 * s)
+    image(c, shots[1], CGRect(x: right - pw, y: 160 * s, width: pw, height: ph), radius: 80 * s, shadow: 60 * s)
+    save(c, "header/\(name)")
+}
+header(3840, 1646, "header-3840x1646.png")
+header(5244, 2950, "header-5244x2950.png")
