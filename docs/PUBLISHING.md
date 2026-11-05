@@ -16,10 +16,10 @@ Team ID: `CR2SHW9GDN`
 
 | Ідентифікатор | Значення |
 |---|---|
-| iOS app / widget | `dev.deye.monitor.ios` / `dev.deye.monitor.ios.widget` |
-| iOS App Group | `group.dev.deye.monitor` |
-| Mac app / widget (і pkg, і Mac App Store) | `dev.deye.monitor` / `dev.deye.monitor.widget` |
-| Mac App Group (тільки Mac App Store) | `CR2SHW9GDN.dev.deye.monitor` |
+| iOS app / widget | `ua.com.mrigne.deyemonitor.ios` / `ua.com.mrigne.deyemonitor.ios.widget` |
+| iOS App Group | `group.ua.com.mrigne.deyemonitor` |
+| Mac app / widget (і pkg, і Mac App Store) | `ua.com.mrigne.deyemonitor` / `ua.com.mrigne.deyemonitor.widget` |
+| Mac App Group (тільки Mac App Store) | `CR2SHW9GDN.ua.com.mrigne.deyemonitor` |
 
 ---
 
@@ -50,14 +50,30 @@ App Store Connect → **Business** (або *Agreements, Tax, and Banking*).
 Прийміть актуальну **Apple Developer Program License Agreement**. Для безкоштовного
 застосунку податки й банк заповнювати не треба.
 
-### 1.3 Ідентифікатори (перевірка)
+### 1.3 Ідентифікатори
 
-Xcode вже зареєстрував їх, коли я збирав і архівував проєкт.
-Перевірте на https://developer.apple.com/account/resources/identifiers:
-`dev.deye.monitor`, `dev.deye.monitor.widget`, `dev.deye.monitor.ios`,
-`dev.deye.monitor.ios.widget`, усі з увімкненою capability **App Groups**.
-Якщо чогось нема, відкрийте проєкт у Xcode, виберіть відповідну схему →
-**Product → Archive**, і Xcode створить відсутнє сам.
+Зареєстровані автоматично (Xcode створив App ID і профілі для App Store).
+Перевірити: https://developer.apple.com/account/resources/identifiers
+
+| Тип | Identifier |
+|---|---|
+| App IDs | `ua.com.mrigne.deyemonitor`, `ua.com.mrigne.deyemonitor.widget`, `ua.com.mrigne.deyemonitor.ios`, `ua.com.mrigne.deyemonitor.ios.widget` |
+| App Groups (фільтр праворуч вгорі → App Groups) | `group.ua.com.mrigne.deyemonitor` |
+
+Mac App Group `CR2SHW9GDN.ua.com.mrigne.deyemonitor` у списку не з'являється.
+Групи з префіксом Team ID окремої реєстрації не потребують.
+
+Якщо чогось бракує, додайте вручну: **Identifiers → +**.
+- **App IDs → App** → Description `Deye Monitor`, Bundle ID **Explicit** → ідентифікатор
+  з таблиці. Для iOS-пари ввімкніть **App Groups** → *Configure* →
+  `group.ua.com.mrigne.deyemonitor`. Для Mac-пари теж ввімкніть **App Groups**.
+- **App Groups** → Description `Deye Monitor`, ID `group.ua.com.mrigne.deyemonitor`.
+
+Або простіше: Xcode → схема → **Product → Archive → Distribute App → App Store Connect →
+Export**. Xcode сам допише відсутнє.
+
+Старі `dev.deye.monitor*` (з версії 1.0.0) можна видалити:
+Identifiers → ідентифікатор → **Remove**.
 
 ### 1.4 Записи застосунків у App Store Connect
 
@@ -68,7 +84,7 @@ Xcode вже зареєстрував їх, коли я збирав і архі
 | Platforms | iOS | macOS |
 | Name | унікальна назва в App Store, напр. **"Solar Monitor for Deye"** | можна ту саму |
 | Primary language | English (або Ukrainian) | |
-| Bundle ID | `dev.deye.monitor.ios` | `dev.deye.monitor` |
+| Bundle ID | `ua.com.mrigne.deyemonitor.ios` | `ua.com.mrigne.deyemonitor` |
 | SKU | `deye-monitor-ios` | `deye-monitor-mac` |
 | User Access | Full Access | Full Access |
 
@@ -203,7 +219,7 @@ Mac і iPhone подаються окремо (різні записи), але 
 |---|---|---|
 | Схема | `DeyeMonitor` | `DeyeMonitorMAS` (прапорець `MAS`) |
 | Sandbox | ні | так (`network.client`) |
-| Дані для віджета | `~/Library/Application Support/DeyeMonitor` | App Group `CR2SHW9GDN.dev.deye.monitor` |
+| Дані для віджета | `~/Library/Application Support/DeyeMonitor` | App Group `CR2SHW9GDN.ua.com.mrigne.deyemonitor` |
 | Автозапуск | LaunchAgent для всіх користувачів | перемикач **Launch at login** у налаштуваннях застосунку |
 | Префіл IP/SN інсталятором | так (`--prefill`) | ні |
 

@@ -1,10 +1,10 @@
 #!/bin/bash
 APP="/Applications/Deye Monitor.app"
-AGENT=/Library/LaunchAgents/dev.deye.monitor.plist
+AGENT=/Library/LaunchAgents/ua.com.mrigne.deyemonitor.plist
 
 chown root:wheel "$AGENT"
 chmod 644 "$AGENT"
-[ -f /Library/Preferences/dev.deye.monitor.plist ] && chmod 644 /Library/Preferences/dev.deye.monitor.plist
+[ -f /Library/Preferences/ua.com.mrigne.deyemonitor.plist ] && chmod 644 /Library/Preferences/ua.com.mrigne.deyemonitor.plist
 
 # Register the app (and its widget) with Launch Services.
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP" 2>/dev/null || true
@@ -14,6 +14,6 @@ chmod 644 "$AGENT"
 CONSOLE_USER=$(stat -f %Su /dev/console)
 if [ -n "$CONSOLE_USER" ] && [ "$CONSOLE_USER" != "root" ] && [ "$CONSOLE_USER" != "loginwindow" ]; then
     CUID=$(id -u "$CONSOLE_USER")
-    launchctl bootstrap "gui/$CUID" "$AGENT" 2>/dev/null || launchctl kickstart -k "gui/$CUID/dev.deye.monitor" 2>/dev/null || true
+    launchctl bootstrap "gui/$CUID" "$AGENT" 2>/dev/null || launchctl kickstart -k "gui/$CUID/ua.com.mrigne.deyemonitor" 2>/dev/null || true
 fi
 exit 0

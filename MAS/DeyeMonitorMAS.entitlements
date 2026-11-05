@@ -6,7 +6,7 @@
 	<true/>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>CR2SHW9GDN.dev.deye.monitor</string>
+		<string>CR2SHW9GDN.ua.com.mrigne.deyemonitor</string>
 	</array>
 	<key>com.apple.security.network.client</key>
 	<true/>

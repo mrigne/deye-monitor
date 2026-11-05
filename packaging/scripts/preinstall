@@ -1,8 +1,13 @@
 #!/bin/bash
 # Stop running copies (all users) before files are replaced.
-AGENT=/Library/LaunchAgents/dev.deye.monitor.plist
+AGENT=/Library/LaunchAgents/ua.com.mrigne.deyemonitor.plist
+LEGACY=/Library/LaunchAgents/dev.deye.monitor.plist
 for uid in $(ps -axo uid=,comm= | awk '/DeyeMonitor$/ {print $1}' | sort -u); do
     launchctl bootout "gui/$uid" "$AGENT" 2>/dev/null || true
+    launchctl bootout "gui/$uid" "$LEGACY" 2>/dev/null || true
 done
+# 1.0.0 used the dev.deye.monitor identifiers.
+rm -f "$LEGACY"
+pkgutil --forget dev.deye.monitor.pkg >/dev/null 2>&1 || true
 pkill -x DeyeMonitor 2>/dev/null || true
 exit 0

@@ -45,14 +45,14 @@ xcodebuild -project "$PROJ/DeyeMonitor.xcodeproj" -scheme DeyeMonitor -configura
     ${SIGN_ARGS[@]+"${SIGN_ARGS[@]}"} build -quiet
 
 ditto "$BUILD/Build/Products/Release/Deye Monitor.app" "$STAGE/Applications/Deye Monitor.app"
-cp "$HERE/dev.deye.monitor.plist" "$STAGE/Library/LaunchAgents/"
+cp "$HERE/ua.com.mrigne.deyemonitor.plist" "$STAGE/Library/LaunchAgents/"
 
 if [ -n "$PREFILL_ENV" ]; then
     IP=$(grep -E '^INVERTER_IP=' "$PREFILL_ENV" | cut -d= -f2- | tr -d '"' || true)
     SN=$(grep -E '^LOGGER_SERIAL=' "$PREFILL_ENV" | cut -d= -f2- | tr -d '"' || true)
     if [ -n "$IP" ] && [ -n "$SN" ]; then
         mkdir -p "$STAGE/Library/Preferences"
-        PREF="$STAGE/Library/Preferences/dev.deye.monitor.plist"
+        PREF="$STAGE/Library/Preferences/ua.com.mrigne.deyemonitor.plist"
         /usr/libexec/PlistBuddy -c "Add :InverterIP string $IP" -c "Add :LoggerSerial string $SN" "$PREF" >/dev/null
         echo "==> Prefilled inverter $IP / logger $SN for all users"
     fi
@@ -69,7 +69,7 @@ pkgbuild --analyze --root "$STAGE" "$COMPONENTS" >/dev/null
 plutil -replace 0.BundleIsRelocatable -bool NO "$COMPONENTS"
 
 pkgbuild --root "$STAGE" --component-plist "$COMPONENTS" --scripts "$HERE/scripts" \
-    --identifier dev.deye.monitor.pkg --version "$VERSION" --install-location / \
+    --identifier ua.com.mrigne.deyemonitor.pkg --version "$VERSION" --install-location / \
     "$BUILD/DeyeMonitor-component.pkg" >/dev/null
 
 PB_SIGN=()

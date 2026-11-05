@@ -26,16 +26,17 @@ final class MonitorStore: ObservableObject {
     @Published var panelParams: [String] { didSet { Self.d.set(panelParams, forKey: "PanelParams") } }
 
     private var loop: Task<Void, Never>?
-    private let queue = DispatchQueue(label: "dev.deye.monitor.inverter")   // one read at a time
+    private let queue = DispatchQueue(label: "ua.com.mrigne.deyemonitor.inverter")   // one read at a time
     private var lastWidgetReload: Date = .distantPast
     private var lastWidgetState: String = ""
 
     init() {
-        // Defaults may also come from /Library/Preferences/dev.deye.monitor.plist
+        // Defaults may also come from /Library/Preferences/ua.com.mrigne.deyemonitor.plist
         // (written by the installer), which UserDefaults reads automatically.
         Self.d.register(defaults: ["PollSeconds": 30, "PhaseMode": 0,
                                    "MenuBarParams": ["battery_soc", "load_power", "grid_online"],
                                    "PanelParams": ["battery_voltage", "pv1_power", "pv2_power", "heatsink_temp"]])
+        Self.migrateLegacyDefaults()
         inverterIP = Self.d.string(forKey: "InverterIP") ?? ""
         loggerSerial = Self.d.string(forKey: "LoggerSerial") ?? ""
         phaseMode = Self.d.integer(forKey: "PhaseMode")
@@ -43,6 +44,17 @@ final class MonitorStore: ObservableObject {
         menuBarParams = Self.d.stringArray(forKey: "MenuBarParams") ?? []
         panelParams = Self.d.stringArray(forKey: "PanelParams") ?? []
         restart()
+    }
+
+    /// 1.0.0 stored settings under the old dev.deye.monitor domain.
+    private static func migrateLegacyDefaults() {
+        #if os(macOS) && !MAS
+        guard d.string(forKey: "InverterIP") == nil,
+              let old = UserDefaults(suiteName: "dev.deye.monitor") else { return }
+        for key in ["InverterIP", "LoggerSerial", "PhaseMode", "PollSeconds", "MenuBarParams", "PanelParams"] {
+            if let v = old.object(forKey: key) { d.set(v, forKey: key) }
+        }
+        #endif
     }
 
     var isConfigured: Bool { !inverterIP.trimmingCharacters(in: .whitespaces).isEmpty && UInt32(loggerSerial) != nil }

@@ -70,9 +70,9 @@ enum SnapshotFile {
 /// widget can read the inverter address and talk to it itself.
 enum SharedSettings {
     #if os(iOS)
-    static let appGroup = "group.dev.deye.monitor"
+    static let appGroup = "group.ua.com.mrigne.deyemonitor"
     #else
-    static let appGroup = "CR2SHW9GDN.dev.deye.monitor"   // macOS groups are Team-ID prefixed
+    static let appGroup = "CR2SHW9GDN.ua.com.mrigne.deyemonitor"   // macOS groups are Team-ID prefixed
     #endif
 
     static var defaults: UserDefaults {

@@ -6,7 +6,7 @@
          crashes. Choosing "Quit" in the menu (clean exit) keeps it closed
          until the next login. -->
     <key>Label</key>
-    <string>dev.deye.monitor</string>
+    <string>ua.com.mrigne.deyemonitor</string>
     <key>ProgramArguments</key>
     <array>
         <string>/Applications/Deye Monitor.app/Contents/MacOS/DeyeMonitor</string>
