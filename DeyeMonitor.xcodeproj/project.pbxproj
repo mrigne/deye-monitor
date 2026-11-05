@@ -9,24 +9,52 @@
 /* Begin PBXBuildFile section */
 		021063ECC6FFD267E0D5ED9E /* DeyeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22403D9313E4686B9E8B355E /* DeyeSummary.swift */; };
 		045527406735F7DD75B050BF /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A506BB510B3680303EC946 /* WidgetViews.swift */; };
+		0525C84D01595ACBA13C2C62 /* DeyeMonitorIOSApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B6BD6FAA047A28CD8382D79 /* DeyeMonitorIOSApp.swift */; };
 		0625CF53DD24E6FD20F434D7 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5E68122C7854E3717D0BF3 /* Snapshot.swift */; };
+		1158849FC418045517256E2F /* SolarmanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669259A4B3787B6C91E1ED5 /* SolarmanClient.swift */; };
 		1991B9B292908727A5411541 /* MonitorWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B38E4251C8E1876CFB9D0E /* MonitorWidget.swift */; };
+		1C154BE7BD751784825D1B0A /* MonitorStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB80027D8A23872C5A6E0CE /* MonitorStore.swift */; };
+		1D18CF3FB402A8E6C2D25604 /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5E68122C7854E3717D0BF3 /* Snapshot.swift */; };
+		1EB4B272E088F2E3EF0B9E70 /* DeyeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22403D9313E4686B9E8B355E /* DeyeSummary.swift */; };
 		21D8057E3F9E2C0D5F3D4388 /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A506BB510B3680303EC946 /* WidgetViews.swift */; };
+		23C64E594D319ED23A4700BE /* DeyeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575232D89521CAD8E14211A9 /* DeyeReader.swift */; };
+		248AE0E2BD11DD079BF675A0 /* DeyeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575232D89521CAD8E14211A9 /* DeyeReader.swift */; };
 		2ED28503B3A89FF29FBAF1CC /* DeyeMonitorApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 119A6A445EC36ADD6B600018 /* DeyeMonitorApp.swift */; };
-		4E30914037C0E91F5A9FF9BC /* ParamCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A409935B55BCAB9F8D713AFF /* ParamCatalog.swift */; };
-		58B734C30C8764952361ECFF /* DeyeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B8ADCC30E4D2A33C3B2D6 /* DeyeReader.swift */; };
-		5A929D68B8E9E144C6FC7437 /* SolarmanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD883E7786D00F97F690805 /* SolarmanClient.swift */; };
+		2FAAFDDAE7F55BBA7A60D9A8 /* MonitorStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFB80027D8A23872C5A6E0CE /* MonitorStore.swift */; };
+		2FEC4D1AC999F8B52C0D73F5 /* MenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323EF4BE3A519ACCFB993A6A /* MenuBarLabel.swift */; };
+		3853E2FBBE7D5D041262F99E /* DeyeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22403D9313E4686B9E8B355E /* DeyeSummary.swift */; };
+		5D4820B2CFB706D94AF77AC4 /* SolarmanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669259A4B3787B6C91E1ED5 /* SolarmanClient.swift */; };
+		5DAB932E1099AE3794004D32 /* ParamCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEF45366E451575596AA5B6 /* ParamCatalog.swift */; };
 		648C23637A1C06B35F757F5B /* MenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323EF4BE3A519ACCFB993A6A /* MenuBarLabel.swift */; };
-		9FC3E0C71E5B98186C36AB15 /* MonitorStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = F92D385F99AF3D745234F63B /* MonitorStore.swift */; };
+		7D157889858CA28B84433D55 /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A506BB510B3680303EC946 /* WidgetViews.swift */; };
+		8CF8A4DA3A984E12D96A275A /* IOSWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8F20AC7D93F0288CDA2325B /* IOSWidget.swift */; };
+		97DAD7B93FD757D9BC5F7468 /* MenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323EF4BE3A519ACCFB993A6A /* MenuBarLabel.swift */; };
+		9B1444A1FD0B78E658D0B462 /* ParamCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEF45366E451575596AA5B6 /* ParamCatalog.swift */; };
+		9DCE7CB23C4D4BF1B8D784CE /* SolarmanClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7669259A4B3787B6C91E1ED5 /* SolarmanClient.swift */; };
+		A2FDBD3B926DE462CC12D55A /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5E68122C7854E3717D0BF3 /* Snapshot.swift */; };
 		AAAEDFB97D3E2BCADFB27B45 /* ParametersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FABDEA3B33439DC769485046 /* ParametersView.swift */; };
+		AE5F9BC4655546B85CC90355 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DDC9FEC01E3055AA8B226B11 /* Assets.xcassets */; };
 		BAC79BB8A9806B2691254640 /* DeyeMonitorWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 7DE3EAD042AF5A702BEFCF65 /* DeyeMonitorWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		BB67B5CCEBFC02F80F446586 /* ParamCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EEF45366E451575596AA5B6 /* ParamCatalog.swift */; };
+		BD21D9D0E26A86B9D1D13891 /* DeyeReader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 575232D89521CAD8E14211A9 /* DeyeReader.swift */; };
 		C0E6F7B50291AD5D93EB173D /* MonitorMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7B54CD8787E25E99B71D91D0 /* MonitorMenuView.swift */; };
+		D0A070AFD107EA4E3825C709 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3278F7A27B9F1FD355028B09 /* Assets.xcassets */; };
 		D1D03F03BAB1C7FF2E7E6749 /* MenuBarLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 323EF4BE3A519ACCFB993A6A /* MenuBarLabel.swift */; };
+		D2DE1BDDCE0B8459A5BD668E /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20A506BB510B3680303EC946 /* WidgetViews.swift */; };
+		DE7D82D077E62390CAE7C3D4 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38341145A91DF8DFD949717C /* ContentView.swift */; };
 		DF70F6F7CAF5067E2C9A6D3D /* Snapshot.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5D5E68122C7854E3717D0BF3 /* Snapshot.swift */; };
 		E8F1D56B84833BBA0532AFC8 /* DeyeSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 22403D9313E4686B9E8B355E /* DeyeSummary.swift */; };
+		F1A29B1D99A679A2C4F66C81 /* DeyeMonitoriOSWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 47A67A5DDE05652B89155E35 /* DeyeMonitoriOSWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		46238DB4A7F319B169F7084B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 87A35CFF737F8816FDC457F1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4743B1F10EAE30A226DCA3C9;
+			remoteInfo = DeyeMonitoriOSWidget;
+		};
 		720D86DBD3AF7DABAE84A674 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 87A35CFF737F8816FDC457F1 /* Project object */;
@@ -37,6 +65,17 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		70C242C2B0D125A6F58C25E3 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				F1A29B1D99A679A2C4F66C81 /* DeyeMonitoriOSWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		74348217674C62D43DD2C3F6 /* Embed Foundation Extensions */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -55,22 +94,43 @@
 		12B38E4251C8E1876CFB9D0E /* MonitorWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorWidget.swift; sourceTree = "<group>"; };
 		20A506BB510B3680303EC946 /* WidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViews.swift; sourceTree = "<group>"; };
 		22403D9313E4686B9E8B355E /* DeyeSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeyeSummary.swift; sourceTree = "<group>"; };
-		2FD883E7786D00F97F690805 /* SolarmanClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarmanClient.swift; sourceTree = "<group>"; };
+		22ED3EAB3F52BE413000782D /* DeyeMonitoriOS.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = DeyeMonitoriOS.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		323EF4BE3A519ACCFB993A6A /* MenuBarLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarLabel.swift; sourceTree = "<group>"; };
+		3278F7A27B9F1FD355028B09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		38341145A91DF8DFD949717C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		47A67A5DDE05652B89155E35 /* DeyeMonitoriOSWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = DeyeMonitoriOSWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		4B6064DD4DEC870294EE7C65 /* DeyeMonitoriOS.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeyeMonitoriOS.entitlements; sourceTree = "<group>"; };
+		4B6BD6FAA047A28CD8382D79 /* DeyeMonitorIOSApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeyeMonitorIOSApp.swift; sourceTree = "<group>"; };
+		4EEF45366E451575596AA5B6 /* ParamCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamCatalog.swift; sourceTree = "<group>"; };
+		575232D89521CAD8E14211A9 /* DeyeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeyeReader.swift; sourceTree = "<group>"; };
 		5D5E68122C7854E3717D0BF3 /* Snapshot.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snapshot.swift; sourceTree = "<group>"; };
 		65923CA5137FFB340D8B70AC /* DeyeMonitorWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeyeMonitorWidget.entitlements; sourceTree = "<group>"; };
+		7669259A4B3787B6C91E1ED5 /* SolarmanClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SolarmanClient.swift; sourceTree = "<group>"; };
 		7B54CD8787E25E99B71D91D0 /* MonitorMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorMenuView.swift; sourceTree = "<group>"; };
 		7DE3EAD042AF5A702BEFCF65 /* DeyeMonitorWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = DeyeMonitorWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		832C71535F5A50D27F5D831E /* DeyeMonitoriOSWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeyeMonitoriOSWidget.entitlements; sourceTree = "<group>"; };
+		8979FC2D22A03709A243E2ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9A4E4F8A4CFBC2D43DFBD1C9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		9DF99FE5EBB7DA1714DE15A7 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
-		A409935B55BCAB9F8D713AFF /* ParamCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParamCatalog.swift; sourceTree = "<group>"; };
-		AA9B8ADCC30E4D2A33C3B2D6 /* DeyeReader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeyeReader.swift; sourceTree = "<group>"; };
+		BA53CFA782CB03A8C29F1397 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		BB2418328B219ECB3455C95D /* DeyeMonitor.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DeyeMonitor.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F92D385F99AF3D745234F63B /* MonitorStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorStore.swift; sourceTree = "<group>"; };
+		D8F20AC7D93F0288CDA2325B /* IOSWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IOSWidget.swift; sourceTree = "<group>"; };
+		DDC9FEC01E3055AA8B226B11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DFB80027D8A23872C5A6E0CE /* MonitorStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonitorStore.swift; sourceTree = "<group>"; };
 		FABDEA3B33439DC769485046 /* ParametersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ParametersView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
+		297853A0114FCD2653BA5843 /* Widget */ = {
+			isa = PBXGroup;
+			children = (
+				832C71535F5A50D27F5D831E /* DeyeMonitoriOSWidget.entitlements */,
+				8979FC2D22A03709A243E2ED /* Info.plist */,
+				D8F20AC7D93F0288CDA2325B /* IOSWidget.swift */,
+			);
+			path = Widget;
+			sourceTree = "<group>";
+		};
 		39D1D3D02D5F7CDB27EC1FB0 /* Widget */ = {
 			isa = PBXGroup;
 			children = (
@@ -84,14 +144,11 @@
 		447CB2D4F6C4945B7958BD96 /* App */ = {
 			isa = PBXGroup;
 			children = (
+				DDC9FEC01E3055AA8B226B11 /* Assets.xcassets */,
 				119A6A445EC36ADD6B600018 /* DeyeMonitorApp.swift */,
-				AA9B8ADCC30E4D2A33C3B2D6 /* DeyeReader.swift */,
 				9A4E4F8A4CFBC2D43DFBD1C9 /* Info.plist */,
 				7B54CD8787E25E99B71D91D0 /* MonitorMenuView.swift */,
-				F92D385F99AF3D745234F63B /* MonitorStore.swift */,
-				A409935B55BCAB9F8D713AFF /* ParamCatalog.swift */,
 				FABDEA3B33439DC769485046 /* ParametersView.swift */,
-				2FD883E7786D00F97F690805 /* SolarmanClient.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -100,6 +157,8 @@
 			isa = PBXGroup;
 			children = (
 				BB2418328B219ECB3455C95D /* DeyeMonitor.app */,
+				22ED3EAB3F52BE413000782D /* DeyeMonitoriOS.app */,
+				47A67A5DDE05652B89155E35 /* DeyeMonitoriOSWidget.appex */,
 				7DE3EAD042AF5A702BEFCF65 /* DeyeMonitorWidget.appex */,
 			);
 			name = Products;
@@ -110,9 +169,43 @@
 			children = (
 				447CB2D4F6C4945B7958BD96 /* App */,
 				F220503D2B4F5BC7499B2B82 /* Common */,
+				B6F9A8C566578EC0923FEF3C /* Core */,
+				D7E1EDD3C9E76F74B062C8D8 /* iOS */,
 				39D1D3D02D5F7CDB27EC1FB0 /* Widget */,
 				4EC69CA6D8AC9CE93DB5DEF0 /* Products */,
 			);
+			sourceTree = "<group>";
+		};
+		9F615A8964A9C153A4FDA4FC /* App */ = {
+			isa = PBXGroup;
+			children = (
+				3278F7A27B9F1FD355028B09 /* Assets.xcassets */,
+				38341145A91DF8DFD949717C /* ContentView.swift */,
+				4B6064DD4DEC870294EE7C65 /* DeyeMonitoriOS.entitlements */,
+				4B6BD6FAA047A28CD8382D79 /* DeyeMonitorIOSApp.swift */,
+				BA53CFA782CB03A8C29F1397 /* Info.plist */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		B6F9A8C566578EC0923FEF3C /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				575232D89521CAD8E14211A9 /* DeyeReader.swift */,
+				DFB80027D8A23872C5A6E0CE /* MonitorStore.swift */,
+				4EEF45366E451575596AA5B6 /* ParamCatalog.swift */,
+				7669259A4B3787B6C91E1ED5 /* SolarmanClient.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		D7E1EDD3C9E76F74B062C8D8 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				9F615A8964A9C153A4FDA4FC /* App */,
+				297853A0114FCD2653BA5843 /* Widget */,
+			);
+			path = iOS;
 			sourceTree = "<group>";
 		};
 		F220503D2B4F5BC7499B2B82 /* Common */ = {
@@ -129,6 +222,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		4743B1F10EAE30A226DCA3C9 /* DeyeMonitoriOSWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9E1C4F20F43A9860CE9FC245 /* Build configuration list for PBXNativeTarget "DeyeMonitoriOSWidget" */;
+			buildPhases = (
+				46D32F42684C5AE126B48209 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DeyeMonitoriOSWidget;
+			packageProductDependencies = (
+			);
+			productName = DeyeMonitoriOSWidget;
+			productReference = 47A67A5DDE05652B89155E35 /* DeyeMonitoriOSWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		53F8C2457139C1D9133124E0 /* DeyeMonitorWidget */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C9D8E6FECCEE8834A4253F7A /* Build configuration list for PBXNativeTarget "DeyeMonitorWidget" */;
@@ -146,11 +256,32 @@
 			productReference = 7DE3EAD042AF5A702BEFCF65 /* DeyeMonitorWidget.appex */;
 			productType = "com.apple.product-type.app-extension";
 		};
+		7D758816C508E412A21267BD /* DeyeMonitoriOS */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AE5270F20B1EFC9310970395 /* Build configuration list for PBXNativeTarget "DeyeMonitoriOS" */;
+			buildPhases = (
+				DA54D275C7F49F2DD20C4DE8 /* Sources */,
+				7655FA52573F94108FB8C674 /* Resources */,
+				70C242C2B0D125A6F58C25E3 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CD0A758992E8D1993C8FA7CA /* PBXTargetDependency */,
+			);
+			name = DeyeMonitoriOS;
+			packageProductDependencies = (
+			);
+			productName = DeyeMonitoriOS;
+			productReference = 22ED3EAB3F52BE413000782D /* DeyeMonitoriOS.app */;
+			productType = "com.apple.product-type.application";
+		};
 		83181FB9C793EBD26B428BF3 /* DeyeMonitor */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = B632AD2B12BB3083917A96F8 /* Build configuration list for PBXNativeTarget "DeyeMonitor" */;
 			buildPhases = (
 				C748A017A5C1AB0A2B14F3DA /* Sources */,
+				DC2C8D163A8AC4D8E045E350 /* Resources */,
 				74348217674C62D43DD2C3F6 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -174,9 +305,17 @@
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
 				TargetAttributes = {
+					4743B1F10EAE30A226DCA3C9 = {
+						DevelopmentTeam = CR2SHW9GDN;
+						ProvisioningStyle = Automatic;
+					};
 					53F8C2457139C1D9133124E0 = {
 						DevelopmentTeam = "";
 						ProvisioningStyle = Manual;
+					};
+					7D758816C508E412A21267BD = {
+						DevelopmentTeam = CR2SHW9GDN;
+						ProvisioningStyle = Automatic;
 					};
 					83181FB9C793EBD26B428BF3 = {
 						DevelopmentTeam = "";
@@ -200,26 +339,79 @@
 			targets = (
 				83181FB9C793EBD26B428BF3 /* DeyeMonitor */,
 				53F8C2457139C1D9133124E0 /* DeyeMonitorWidget */,
+				7D758816C508E412A21267BD /* DeyeMonitoriOS */,
+				4743B1F10EAE30A226DCA3C9 /* DeyeMonitoriOSWidget */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		7655FA52573F94108FB8C674 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D0A070AFD107EA4E3825C709 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DC2C8D163A8AC4D8E045E350 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				AE5F9BC4655546B85CC90355 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		46D32F42684C5AE126B48209 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				248AE0E2BD11DD079BF675A0 /* DeyeReader.swift in Sources */,
+				1EB4B272E088F2E3EF0B9E70 /* DeyeSummary.swift in Sources */,
+				8CF8A4DA3A984E12D96A275A /* IOSWidget.swift in Sources */,
+				97DAD7B93FD757D9BC5F7468 /* MenuBarLabel.swift in Sources */,
+				5DAB932E1099AE3794004D32 /* ParamCatalog.swift in Sources */,
+				A2FDBD3B926DE462CC12D55A /* Snapshot.swift in Sources */,
+				9DCE7CB23C4D4BF1B8D784CE /* SolarmanClient.swift in Sources */,
+				7D157889858CA28B84433D55 /* WidgetViews.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		C748A017A5C1AB0A2B14F3DA /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 				2ED28503B3A89FF29FBAF1CC /* DeyeMonitorApp.swift in Sources */,
-				58B734C30C8764952361ECFF /* DeyeReader.swift in Sources */,
+				23C64E594D319ED23A4700BE /* DeyeReader.swift in Sources */,
 				021063ECC6FFD267E0D5ED9E /* DeyeSummary.swift in Sources */,
 				D1D03F03BAB1C7FF2E7E6749 /* MenuBarLabel.swift in Sources */,
 				C0E6F7B50291AD5D93EB173D /* MonitorMenuView.swift in Sources */,
-				9FC3E0C71E5B98186C36AB15 /* MonitorStore.swift in Sources */,
-				4E30914037C0E91F5A9FF9BC /* ParamCatalog.swift in Sources */,
+				1C154BE7BD751784825D1B0A /* MonitorStore.swift in Sources */,
+				9B1444A1FD0B78E658D0B462 /* ParamCatalog.swift in Sources */,
 				AAAEDFB97D3E2BCADFB27B45 /* ParametersView.swift in Sources */,
 				0625CF53DD24E6FD20F434D7 /* Snapshot.swift in Sources */,
-				5A929D68B8E9E144C6FC7437 /* SolarmanClient.swift in Sources */,
+				1158849FC418045517256E2F /* SolarmanClient.swift in Sources */,
 				21D8057E3F9E2C0D5F3D4388 /* WidgetViews.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		DA54D275C7F49F2DD20C4DE8 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DE7D82D077E62390CAE7C3D4 /* ContentView.swift in Sources */,
+				0525C84D01595ACBA13C2C62 /* DeyeMonitorIOSApp.swift in Sources */,
+				BD21D9D0E26A86B9D1D13891 /* DeyeReader.swift in Sources */,
+				3853E2FBBE7D5D041262F99E /* DeyeSummary.swift in Sources */,
+				2FEC4D1AC999F8B52C0D73F5 /* MenuBarLabel.swift in Sources */,
+				2FAAFDDAE7F55BBA7A60D9A8 /* MonitorStore.swift in Sources */,
+				BB67B5CCEBFC02F80F446586 /* ParamCatalog.swift in Sources */,
+				1D18CF3FB402A8E6C2D25604 /* Snapshot.swift in Sources */,
+				5D4820B2CFB706D94AF77AC4 /* SolarmanClient.swift in Sources */,
+				D2DE1BDDCE0B8459A5BD668E /* WidgetViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -243,9 +435,35 @@
 			target = 53F8C2457139C1D9133124E0 /* DeyeMonitorWidget */;
 			targetProxy = 720D86DBD3AF7DABAE84A674 /* PBXContainerItemProxy */;
 		};
+		CD0A758992E8D1993C8FA7CA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4743B1F10EAE30A226DCA3C9 /* DeyeMonitoriOSWidget */;
+			targetProxy = 46238DB4A7F319B169F7084B /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		38F1972242C362D75F504CB6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/App/DeyeMonitoriOS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CR2SHW9GDN;
+				INFOPLIST_FILE = iOS/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.deye.monitor.ios;
+				PRODUCT_NAME = DeyeMonitor;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
 		3B139EB37BDF56B058D700C4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -302,18 +520,38 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Debug;
+		};
+		5C43E4578FAEEEC58E9F878C /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iOS/Widget/DeyeMonitoriOSWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CR2SHW9GDN;
+				INFOPLIST_FILE = iOS/Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.deye.monitor.ios.widget;
+				PRODUCT_NAME = DeyeMonitorWidget;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
 		};
 		7051708EE6A92B773278816D /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -382,12 +620,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
@@ -428,6 +666,47 @@
 			};
 			name = Release;
 		};
+		C350CF75C5B96B964628BEDA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = iOS/App/DeyeMonitoriOS.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CR2SHW9GDN;
+				INFOPLIST_FILE = iOS/App/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.deye.monitor.ios;
+				PRODUCT_NAME = DeyeMonitor;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D4773A255334E0D435ACC78B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = iOS/Widget/DeyeMonitoriOSWidget.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = CR2SHW9GDN;
+				INFOPLIST_FILE = iOS/Widget/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = dev.deye.monitor.ios.widget;
+				PRODUCT_NAME = DeyeMonitorWidget;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
 		E7188A3ABA2D43671C24E56C /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -453,6 +732,24 @@
 			buildConfigurations = (
 				3B139EB37BDF56B058D700C4 /* Debug */,
 				A3650742A949BA0108281E2A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		9E1C4F20F43A9860CE9FC245 /* Build configuration list for PBXNativeTarget "DeyeMonitoriOSWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D4773A255334E0D435ACC78B /* Debug */,
+				5C43E4578FAEEEC58E9F878C /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AE5270F20B1EFC9310970395 /* Build configuration list for PBXNativeTarget "DeyeMonitoriOS" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C350CF75C5B96B964628BEDA /* Debug */,
+				38F1972242C362D75F504CB6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Debug;

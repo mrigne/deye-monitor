@@ -4,7 +4,8 @@
 <img width="496" height="210" alt="image" src="https://github.com/user-attachments/assets/e96d4683-69d1-45e3-b4ac-158c603b27bd" />
 
 
-macOS menu bar app + desktop widget for Deye hybrid inverters. It reads the
+macOS menu bar app + desktop widget, and an iPhone app with Home/Lock Screen
+widgets, for Deye hybrid inverters. It reads the
 inverter **directly** through the Solarman Wi‑Fi logger (Solarman V5 protocol,
 TCP 8899) — no server, Docker or cloud needed.
 
@@ -29,6 +30,15 @@ Widget: right-click the desktop → *Edit Widgets* → "Deye Monitor".
 
 Uninstall: `sudo bash DeyeMonitor-uninstall.sh`.
 
+## iPhone
+
+`iOS/` — the same reader as a SwiftUI app: live values, today's kWh, pinned
+parameters, settings. Widgets: Home Screen (small/medium, tap ↻ to read now)
+and Lock Screen (battery gauge, inline, rectangular with 3 values you pick in
+the app). The widget reads the inverter itself when the phone is on the home
+Wi‑Fi, otherwise it shows the last reading. Install / TestFlight / App Store:
+[docs/PUBLISHING.md](docs/PUBLISHING.md).
+
 ## Build
 
 Requires Xcode 16+, macOS 14+.
@@ -48,8 +58,9 @@ after editing `project.yml`.
 
 ## How it works
 
-- `App/SolarmanClient.swift` — Solarman V5 framing + Modbus RTU (function 0x03)
-- `App/DeyeReader.swift` — reads register blocks, auto-detects phases
-- `App/ParamCatalog.swift` — every parameter: register, scaling, unit
+- App icon: `packaging/icon/make_icon.swift` renders it (`swift make_icon.swift packaging/icon`)
+- `Core/SolarmanClient.swift` — Solarman V5 framing + Modbus RTU (function 0x03)
+- `Core/DeyeReader.swift` — reads register blocks, auto-detects phases
+- `Core/ParamCatalog.swift` — every parameter: register, scaling, unit
 - The widget can't access the local network (macOS rule), so the app writes
   `~/Library/Application Support/DeyeMonitor/snapshot.json` and the widget reads it.

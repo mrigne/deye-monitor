@@ -6,6 +6,7 @@ options:
   bundleIdPrefix: dev.deye
   deploymentTarget:
     macOS: "14.0"
+    iOS: "17.0"
   createIntermediateGroups: true
 
 settings:
@@ -24,6 +25,7 @@ targets:
     platform: macOS
     sources:
       - App
+      - Core
       - Common
     dependencies:
       - target: DeyeMonitorWidget
@@ -44,6 +46,7 @@ targets:
         PRODUCT_BUNDLE_IDENTIFIER: dev.deye.monitor
         PRODUCT_NAME: Deye Monitor
         EXECUTABLE_NAME: DeyeMonitor
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
 
   DeyeMonitorWidget:
     type: app-extension
@@ -70,3 +73,74 @@ targets:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: dev.deye.monitor.widget
         PRODUCT_NAME: DeyeMonitorWidget
+
+  # ── iOS ────────────────────────────────────────────────────────────────
+  # Signed automatically with your team; the App Group shares settings and the
+  # last reading between the app and its widgets.
+  DeyeMonitoriOS:
+    type: application
+    platform: iOS
+    sources:
+      - iOS/App
+      - Core
+      - Common
+    dependencies:
+      - target: DeyeMonitoriOSWidget
+    info:
+      path: iOS/App/Info.plist
+      properties:
+        CFBundleDisplayName: Deye Monitor
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.utilities
+        ITSAppUsesNonExemptEncryption: false
+        NSLocalNetworkUsageDescription: Deye Monitor reads your solar inverter's data logger on your home network.
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations: [UIInterfaceOrientationPortrait]
+        UISupportedInterfaceOrientations~ipad:
+          [UIInterfaceOrientationPortrait, UIInterfaceOrientationPortraitUpsideDown,
+           UIInterfaceOrientationLandscapeLeft, UIInterfaceOrientationLandscapeRight]
+    entitlements:
+      path: iOS/App/DeyeMonitoriOS.entitlements
+      properties:
+        com.apple.security.application-groups: [group.dev.deye.monitor]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.deye.monitor.ios
+        PRODUCT_NAME: DeyeMonitor
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        DEVELOPMENT_TEAM: CR2SHW9GDN
+
+  DeyeMonitoriOSWidget:
+    type: app-extension
+    platform: iOS
+    sources:
+      - iOS/Widget
+      - path: Core
+        excludes: [MonitorStore.swift]
+      - Common
+    info:
+      path: iOS/Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Deye Monitor
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSLocalNetworkUsageDescription: Deye Monitor reads your solar inverter's data logger on your home network.
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: iOS/Widget/DeyeMonitoriOSWidget.entitlements
+      properties:
+        com.apple.security.application-groups: [group.dev.deye.monitor]
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.deye.monitor.ios.widget
+        PRODUCT_NAME: DeyeMonitorWidget
+        TARGETED_DEVICE_FAMILY: "1,2"
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "Apple Development"
+        DEVELOPMENT_TEAM: CR2SHW9GDN

@@ -5,6 +5,8 @@ struct DeyeEntry: TimelineEntry {
     let date: Date
     let summary: DeyeSummary?
     let error: String?
+    var registers: [UInt16: UInt16] = [:]
+    var phases: Int = 1
 }
 
 // MARK: Views

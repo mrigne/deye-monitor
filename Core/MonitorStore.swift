@@ -13,7 +13,7 @@ final class MonitorStore: ObservableObject {
     @Published private(set) var isReading = false
     @Published private(set) var phases: Int?
 
-    private static let d = UserDefaults.standard
+    private static let d = SharedSettings.defaults
 
     @Published var inverterIP: String { didSet { Self.d.set(inverterIP, forKey: "InverterIP") } }
     @Published var loggerSerial: String { didSet { Self.d.set(loggerSerial, forKey: "LoggerSerial") } }
@@ -55,6 +55,7 @@ final class MonitorStore: ObservableObject {
         summary = nil
         lastError = nil
         restart()
+        WidgetCenter.shared.reloadAllTimelines()   // widgets pick up the new address
     }
 
     func restart() {
@@ -70,7 +71,12 @@ final class MonitorStore: ObservableObject {
 
     /// Manual "read now" from the menu.
     func refresh() {
-        Task { await readNow(); reloadWidget(force: true) }
+        Task { await refreshNow() }
+    }
+
+    func refreshNow() async {
+        await readNow()
+        reloadWidget(force: true)
     }
 
     private func readNow() async {
@@ -121,12 +127,9 @@ final class MonitorStore: ObservableObject {
         reloadWidget(force: false)
     }
 
-    private func phaseCacheKey(ip: String, serial: UInt32) -> String { "DetectedPhases.\(ip).\(serial)" }
+    private func phaseCacheKey(ip: String, serial: UInt32) -> String { SharedSettings.phaseCacheKey(ip: ip, serial: serial) }
 
-    private func cachedPhases(ip: String, serial: UInt32) -> Int? {
-        let v = Self.d.integer(forKey: phaseCacheKey(ip: ip, serial: serial))
-        return v == 1 || v == 3 ? v : nil
-    }
+    private func cachedPhases(ip: String, serial: UInt32) -> Int? { SharedSettings.cachedPhases(ip: ip, serial: serial) }
 
     // MARK: Widget hand-off
 
@@ -140,7 +143,8 @@ final class MonitorStore: ObservableObject {
 
     private func writeSnapshot() {
         SnapshotFile.write(DeyeSnapshot(summary: summary, readAt: lastRead, error: lastError,
-                                        pollInterval: pollSeconds, writtenAt: Date()))
+                                        pollInterval: pollSeconds, writtenAt: Date(),
+                                        registers: registers.isEmpty ? nil : registers, phases: phases))
     }
 
     /// Widget reloads are budgeted by macOS, so only ask when something the
@@ -205,5 +209,7 @@ final class MonitorStore: ObservableObject {
         if inMenuBar { menuBarParams = list } else { panelParams = list }
     }
 
+    #if os(macOS)
     var menuBarImage: NSImage { MenuBarLabel.image(menuBarItems) }
+    #endif
 }

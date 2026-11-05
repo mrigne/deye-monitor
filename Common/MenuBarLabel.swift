@@ -1,5 +1,7 @@
 import SwiftUI
+#if os(macOS)
 import AppKit
+#endif
 
 enum MenuBarItem: Hashable {
     case metric(String, String)   // SF Symbol + value
@@ -60,6 +62,7 @@ struct PlugIcon: View {
     }
 }
 
+#if os(macOS)
 extension MenuBarLabel {
     /// Renders the label as a template image (MenuBarExtra drops SF Symbols
     /// interpolated into Text, so the label is drawn as a picture instead).
@@ -72,3 +75,4 @@ extension MenuBarLabel {
         return image
     }
 }
+#endif

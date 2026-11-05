@@ -16,3 +16,8 @@ jobs:
         run: |
           xcodebuild -project DeyeMonitor.xcodeproj -scheme DeyeMonitor -configuration Release \
             -derivedDataPath build build -quiet
+      - name: Build iOS (simulator, unsigned)
+        run: |
+          xcodebuild -project DeyeMonitor.xcodeproj -scheme DeyeMonitoriOS -configuration Release \
+            -destination 'generic/platform=iOS Simulator' -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO build -quiet

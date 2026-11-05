@@ -9,6 +9,8 @@ struct DeyeSnapshot: Codable {
     var error: String?         // last read error, if the latest attempt failed
     var pollInterval: Int
     var writtenAt: Date
+    var registers: [UInt16: UInt16]? = nil   // raw values, for user-picked parameters
+    var phases: Int? = nil
 }
 
 enum SnapshotFile {
@@ -22,7 +24,16 @@ enum SnapshotFile {
     }
 
     static var directory: URL {
-        URL(fileURLWithPath: realHome).appendingPathComponent("Library/Application Support/DeyeMonitor", isDirectory: true)
+        #if os(iOS)
+        // iOS: the app and its widget share an App Group container.
+        if let group = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: SharedSettings.appGroup) {
+            return group.appendingPathComponent("Library/Application Support/DeyeMonitor", isDirectory: true)
+        }
+        return FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask)[0]
+            .appendingPathComponent("DeyeMonitor", isDirectory: true)
+        #else
+        return URL(fileURLWithPath: realHome).appendingPathComponent("Library/Application Support/DeyeMonitor", isDirectory: true)
+        #endif
     }
 
     static var url: URL { directory.appendingPathComponent("snapshot.json") }
@@ -51,5 +62,36 @@ enum SnapshotFile {
     static func read() -> DeyeSnapshot? {
         guard let data = try? Data(contentsOf: url) else { return nil }
         return try? decoder.decode(DeyeSnapshot.self, from: data)
+    }
+}
+
+/// Settings storage. macOS keeps the standard domain (so the installer's
+/// /Library/Preferences prefill keeps working); iOS uses the App Group so the
+/// widget can read the inverter address and talk to it itself.
+enum SharedSettings {
+    static let appGroup = "group.dev.deye.monitor"
+
+    static var defaults: UserDefaults {
+        #if os(iOS)
+        return UserDefaults(suiteName: appGroup) ?? .standard
+        #else
+        return .standard
+        #endif
+    }
+
+    static var inverterIP: String { (defaults.string(forKey: "InverterIP") ?? "").trimmingCharacters(in: .whitespaces) }
+    static var loggerSerial: UInt32? { defaults.string(forKey: "LoggerSerial").flatMap { UInt32($0) } }
+
+    static func phaseCacheKey(ip: String, serial: UInt32) -> String { "DetectedPhases.\(ip).\(serial)" }
+
+    static func cachedPhases(ip: String, serial: UInt32) -> Int? {
+        let v = defaults.integer(forKey: phaseCacheKey(ip: ip, serial: serial))
+        return v == 1 || v == 3 ? v : nil
+    }
+
+    /// 1 or 3 if the user forced it, else nil.
+    static var forcedPhases: Int? {
+        let v = defaults.integer(forKey: "PhaseMode")
+        return v == 1 || v == 3 ? v : nil
     }
 }

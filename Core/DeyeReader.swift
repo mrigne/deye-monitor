@@ -11,8 +11,8 @@ final class DeyeReader {
 
     private let client: SolarmanClient
 
-    init(host: String, loggerSerial: UInt32) {
-        client = SolarmanClient(host: host, loggerSerial: loggerSerial)
+    init(host: String, loggerSerial: UInt32, timeout: TimeInterval = 10) {
+        client = SolarmanClient(host: host, loggerSerial: loggerSerial, timeout: timeout)
     }
 
     deinit { client.close() }
