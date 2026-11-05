@@ -21,6 +21,9 @@ on:
         type: choice
         options: [both, ios, macos]
         default: both
+      version:
+        description: 'Version, e.g. 1.2.0 (empty = from tag / project.yml)'
+        required: false
 
 jobs:
   upload:
@@ -48,14 +51,20 @@ jobs:
       - uses: actions/checkout@v5
         if: steps.gate.outputs.run
 
-      - name: Select Xcode 16
+      # App Store uploads require the newest SDKs (iOS 26+ since 2026).
+      - name: Select newest Xcode
         if: steps.gate.outputs.run
-        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)"
+        run: |
+          X="$(ls -d /Applications/Xcode_*.app | grep -vi beta | sort -V | tail -1)"
+          echo "Using $X"; sudo xcode-select -s "$X"
+          V="$(xcodebuild -version | awk 'NR==1{print $2}')"
+          if [ "${V%%.*}" -lt 26 ]; then echo "::error::Xcode $V is too old for App Store uploads (need 26+)"; exit 1; fi
 
       - name: Version
         if: steps.gate.outputs.run
         run: |
-          if [[ "$GITHUB_REF_NAME" == v* ]]; then V="${GITHUB_REF_NAME#v}"
+          if [ -n "${{ github.event.inputs.version }}" ]; then V="${{ github.event.inputs.version }}"
+          elif [[ "$GITHUB_REF_NAME" == v* ]]; then V="${GITHUB_REF_NAME#v}"
           else V="$(grep -m1 'MARKETING_VERSION' project.yml | sed 's/.*: *"\{0,1\}\([^"]*\)"\{0,1\}/\1/')"; fi
           echo "VERSION=$V" >> "$GITHUB_ENV"
           # App Store build numbers must always increase.
