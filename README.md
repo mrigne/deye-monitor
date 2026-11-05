@@ -1,5 +1,8 @@
 # Deye Monitor
 
+<img width="337" height="439" alt="image" src="https://github.com/user-attachments/assets/f77808dd-610c-4f9a-bad1-94732d66edca" />
+
+
 macOS menu bar app + desktop widget for Deye hybrid inverters. It reads the
 inverter **directly** through the Solarman Wi‑Fi logger (Solarman V5 protocol,
 TCP 8899) — no server, Docker or cloud needed.
