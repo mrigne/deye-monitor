@@ -1,0 +1,72 @@
+# Deye Monitor — standalone menu bar app + widget that reads the inverter
+# directly over Solarman V5 (no dashboard/Docker needed).
+# Regenerate the Xcode project after edits: xcodegen generate
+name: DeyeMonitor
+options:
+  bundleIdPrefix: dev.deye
+  deploymentTarget:
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+    ENABLE_HARDENED_RUNTIME: NO
+
+targets:
+  DeyeMonitor:
+    type: application
+    platform: macOS
+    sources:
+      - App
+      - Common
+    dependencies:
+      - target: DeyeMonitorWidget
+    info:
+      path: App/Info.plist
+      properties:
+        CFBundleName: Deye Monitor
+        CFBundleDisplayName: Deye Monitor
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSUIElement: true            # menu bar only, no Dock icon
+        LSApplicationCategoryType: public.app-category.utilities
+        NSLocalNetworkUsageDescription: Deye Monitor reads your solar inverter's data logger on the local network.
+    # Not sandboxed: it talks raw TCP to the logger and writes the snapshot
+    # the widget reads from ~/Library/Application Support/DeyeMonitor.
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.deye.monitor
+        PRODUCT_NAME: Deye Monitor
+        EXECUTABLE_NAME: DeyeMonitor
+
+  DeyeMonitorWidget:
+    type: app-extension
+    platform: macOS
+    sources:
+      - Widget
+      - Common
+    info:
+      path: Widget/Info.plist
+      properties:
+        CFBundleDisplayName: Deye Monitor
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        NSExtension:
+          NSExtensionPointIdentifier: com.apple.widgetkit-extension
+    entitlements:
+      path: Widget/DeyeMonitorWidget.entitlements
+      properties:
+        com.apple.security.app-sandbox: true
+        # Read-only access to the snapshot the app writes in the user's home.
+        com.apple.security.temporary-exception.files.home-relative-path.read-only:
+          - /Library/Application Support/DeyeMonitor/
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: dev.deye.monitor.widget
+        PRODUCT_NAME: DeyeMonitorWidget

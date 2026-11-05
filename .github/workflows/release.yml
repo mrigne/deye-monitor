@@ -1,0 +1,85 @@
+# Push a tag like v1.0.0 → GitHub Release with the installer.
+# If the signing secrets below are configured the .pkg is signed with your
+# Developer ID and notarized by Apple (opens on any Mac without warnings);
+# otherwise an ad-hoc signed .pkg is published.
+#
+# Repository secrets (Settings → Secrets and variables → Actions):
+#   MACOS_CERTS_P12          base64 of a .p12 holding BOTH "Developer ID Application"
+#                            and "Developer ID Installer" certificates + private keys
+#   MACOS_CERTS_PASSWORD     password of that .p12
+#   APPLE_TEAM_ID            e.g. ABCDE12345
+#   APP_SIGN_IDENTITY        "Developer ID Application: Your Name (ABCDE12345)"
+#   PKG_SIGN_IDENTITY        "Developer ID Installer: Your Name (ABCDE12345)"
+#   NOTARY_KEY_P8            base64 of the App Store Connect API key (AuthKey_XXXX.p8)
+#   NOTARY_KEY_ID            key id (XXXX)
+#   NOTARY_ISSUER            issuer id (uuid)
+name: Release
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-15
+    env:
+      HAS_CERTS: ${{ secrets.MACOS_CERTS_P12 != '' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select Xcode 16
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)"
+
+      - name: Version from tag
+        run: echo "VERSION=${GITHUB_REF_NAME#v}" >> "$GITHUB_ENV"
+
+      - name: Import signing certificates
+        env:
+          MACOS_CERTS_P12: ${{ secrets.MACOS_CERTS_P12 }}
+          MACOS_CERTS_PASSWORD: ${{ secrets.MACOS_CERTS_PASSWORD }}
+          NOTARY_KEY_P8: ${{ secrets.NOTARY_KEY_P8 }}
+        if: env.HAS_CERTS == 'true'
+        run: |
+          KC="$RUNNER_TEMP/signing.keychain-db"
+          KC_PW="$(uuidgen)"
+          echo "$MACOS_CERTS_P12" | base64 --decode > "$RUNNER_TEMP/certs.p12"
+          security create-keychain -p "$KC_PW" "$KC"
+          security set-keychain-settings -lut 21600 "$KC"
+          security unlock-keychain -p "$KC_PW" "$KC"
+          security import "$RUNNER_TEMP/certs.p12" -k "$KC" -P "$MACOS_CERTS_PASSWORD" \
+            -T /usr/bin/codesign -T /usr/bin/productbuild -T /usr/bin/pkgbuild
+          security set-key-partition-list -S apple-tool:,apple: -s -k "$KC_PW" "$KC" >/dev/null
+          security list-keychains -d user -s "$KC" $(security list-keychains -d user | tr -d '"')
+          rm "$RUNNER_TEMP/certs.p12"
+          echo "$NOTARY_KEY_P8" | base64 --decode > "$RUNNER_TEMP/notary_key.p8"
+          echo "SIGNING=1" >> "$GITHUB_ENV"
+
+      - name: Build installer
+        env:
+          BUILD_NUMBER: ${{ github.run_number }}
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+          APP_SIGN_IDENTITY: ${{ secrets.APP_SIGN_IDENTITY }}
+          PKG_SIGN_IDENTITY: ${{ secrets.PKG_SIGN_IDENTITY }}
+          NOTARY_KEY_ID: ${{ secrets.NOTARY_KEY_ID }}
+          NOTARY_ISSUER: ${{ secrets.NOTARY_ISSUER }}
+        run: |
+          if [ "${SIGNING:-}" = "1" ]; then export NOTARY_KEY_PATH="$RUNNER_TEMP/notary_key.p8"
+          else unset APP_SIGN_IDENTITY PKG_SIGN_IDENTITY; fi
+          packaging/build_pkg.sh
+
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cp packaging/uninstall.sh DeyeMonitor-uninstall.sh
+          NOTE="Ad-hoc signed build: right-click the .pkg → Open on first install."
+          [ "${SIGNING:-}" = "1" ] && NOTE="Signed with Developer ID and notarized by Apple."
+          gh release create "$GITHUB_REF_NAME" "dist/DeyeMonitor-$VERSION.pkg" DeyeMonitor-uninstall.sh \
+            --title "Deye Monitor $VERSION" --generate-notes --notes "$NOTE"
+
+      - name: Clean up keychain
+        if: always()
+        run: security delete-keychain "$RUNNER_TEMP/signing.keychain-db" 2>/dev/null || true

@@ -1,0 +1,8 @@
+#!/bin/bash
+# Stop running copies (all users) before files are replaced.
+AGENT=/Library/LaunchAgents/dev.deye.monitor.plist
+for uid in $(ps -axo uid=,comm= | awk '/DeyeMonitor$/ {print $1}' | sort -u); do
+    launchctl bootout "gui/$uid" "$AGENT" 2>/dev/null || true
+done
+pkill -x DeyeMonitor 2>/dev/null || true
+exit 0

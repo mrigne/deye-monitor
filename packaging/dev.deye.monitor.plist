@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- Starts Deye Monitor for every user at login and restarts it if it
+         crashes. Choosing "Quit" in the menu (clean exit) keeps it closed
+         until the next login. -->
+    <key>Label</key>
+    <string>dev.deye.monitor</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Applications/Deye Monitor.app/Contents/MacOS/DeyeMonitor</string>
+    </array>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <dict>
+        <key>SuccessfulExit</key>
+        <false/>
+    </dict>
+    <key>ThrottleInterval</key>
+    <integer>30</integer>
+    <key>LimitLoadToSessionType</key>
+    <string>Aqua</string>
+    <key>ProcessType</key>
+    <string>Interactive</string>
+</dict>
+</plist>

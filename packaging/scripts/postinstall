@@ -1,0 +1,19 @@
+#!/bin/bash
+APP="/Applications/Deye Monitor.app"
+AGENT=/Library/LaunchAgents/dev.deye.monitor.plist
+
+chown root:wheel "$AGENT"
+chmod 644 "$AGENT"
+[ -f /Library/Preferences/dev.deye.monitor.plist ] && chmod 644 /Library/Preferences/dev.deye.monitor.plist
+
+# Register the app (and its widget) with Launch Services.
+/System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$APP" 2>/dev/null || true
+
+# Start it now for whoever is logged in at the console; other users get it
+# at their next login via the LaunchAgent.
+CONSOLE_USER=$(stat -f %Su /dev/console)
+if [ -n "$CONSOLE_USER" ] && [ "$CONSOLE_USER" != "root" ] && [ "$CONSOLE_USER" != "loginwindow" ]; then
+    CUID=$(id -u "$CONSOLE_USER")
+    launchctl bootstrap "gui/$CUID" "$AGENT" 2>/dev/null || launchctl kickstart -k "gui/$CUID/dev.deye.monitor" 2>/dev/null || true
+fi
+exit 0
