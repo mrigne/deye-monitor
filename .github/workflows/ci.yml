@@ -21,3 +21,7 @@ jobs:
           xcodebuild -project DeyeMonitor.xcodeproj -scheme DeyeMonitoriOS -configuration Release \
             -destination 'generic/platform=iOS Simulator' -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO build -quiet
+      - name: Build Mac App Store variant (unsigned)
+        run: |
+          xcodebuild -project DeyeMonitor.xcodeproj -scheme DeyeMonitorMAS -configuration Release \
+            -derivedDataPath build CODE_SIGNING_ALLOWED=NO build -quiet

@@ -1,100 +1,241 @@
-# Publishing Deye Monitor
+# Публікація Deye Monitor
 
-Team ID: `CR2SHW9GDN`. Bundle IDs:
+Є три способи розповсюдження. Всі збираються з одного коду.
 
-| Target | Bundle ID |
+| Канал | Що | Як збирається |
+|---|---|---|
+| **GitHub Releases** | `.pkg` для Mac (Developer ID, нотаризований) | `release.yml` на тег `v*` |
+| **App Store (iPhone/iPad)** | схема `DeyeMonitoriOS` | `appstore.yml` на тег `v*` → TestFlight |
+| **Mac App Store** | схема `DeyeMonitorMAS` (sandbox + App Group) | `appstore.yml` на тег `v*` → TestFlight |
+
+Один тег `v1.2.0` запускає все: GitHub Release з `.pkg` і завантаження обох
+збірок в App Store Connect. Далі ви на сайті Apple обираєте збірку і подаєте
+її на перевірку.
+
+Team ID: `CR2SHW9GDN`
+
+| Ідентифікатор | Значення |
 |---|---|
-| macOS app (pkg / Developer ID) | `dev.deye.monitor` |
-| macOS widget | `dev.deye.monitor.widget` |
-| iOS app | `dev.deye.monitor.ios` |
-| iOS widget | `dev.deye.monitor.ios.widget` |
-| App Group (iOS) | `group.dev.deye.monitor` |
-
-If Apple says an ID is already taken, change the prefix in `project.yml`
-(and `SharedSettings.appGroup` in `Common/Snapshot.swift`), then run `xcodegen generate`.
+| iOS app / widget | `dev.deye.monitor.ios` / `dev.deye.monitor.ios.widget` |
+| iOS App Group | `group.dev.deye.monitor` |
+| Mac app / widget (і pkg, і Mac App Store) | `dev.deye.monitor` / `dev.deye.monitor.widget` |
+| Mac App Group (тільки Mac App Store) | `CR2SHW9GDN.dev.deye.monitor` |
 
 ---
 
-## 1. iOS: run it on your own iPhone (5 minutes, free on any account)
+## Частина 1. Одноразове налаштування
 
-1. iPhone: **Settings → Privacy & Security → Developer Mode → On** (it reboots).
-2. Connect the iPhone by cable (or the same Wi‑Fi after the first pairing) and tap *Trust*.
-3. `open DeyeMonitor.xcodeproj` → scheme **DeyeMonitoriOS** → choose your iPhone at the top.
-4. Xcode → Settings → Accounts: your Apple ID must be signed in (team *Ihor Nerozia*).
-   Signing is automatic. On the first build Xcode registers the device, both bundle IDs
-   and the App Group for you.
-5. ⌘R. On the phone: enter the inverter IP and logger SN → **Save** → **Allow** Local Network.
-6. Widgets: long-press the Home Screen → **Edit → Add Widget → Deye Monitor**.
-   Lock Screen: long-press the Lock Screen → **Customize → Lock Screen → widget area**.
+### 1.1 API-ключ з роллю Admin
 
-With a paid developer account the build stays valid for a year. Re-run from Xcode when it expires.
+CI підписує збірки для App Store через Apple *cloud signing*. Сертифікати
+Apple Distribution при цьому не треба експортувати в GitHub, але ключ
+App Store Connect API **повинен мати роль Admin**.
 
-## 2. iOS: TestFlight (install without a cable, for you and your family)
+1. https://appstoreconnect.apple.com → **Users and Access → Integrations →
+   App Store Connect API → Team Keys**.
+2. Знайдіть ключ, чий ID записаний у секреті `NOTARY_KEY_ID`, і подивіться колонку *Access*.
+   - **Admin**: нічого робити не треба.
+   - Інша роль: натисніть **+** і створіть новий ключ з Access = **Admin**.
+     Скачайте `AuthKey_XXXX.p8` (скачати можна лише один раз) і оновіть три секрети в
+     GitHub → repo → **Settings → Secrets and variables → Actions**:
+     ```bash
+     base64 -i ~/Downloads/AuthKey_XXXX.p8 | pbcopy     # → NOTARY_KEY_P8
+     ```
+     `NOTARY_KEY_ID` = Key ID, `NOTARY_ISSUER` = Issuer ID (вгорі сторінки).
+     Нотаризація `.pkg` працює і з новим ключем.
 
-1. Go to https://appstoreconnect.apple.com → **Apps → + → New App**:
-   - Platform iOS, name **Deye Monitor** (the name must be unique on the store, so try e.g. "Deye Monitor – Solar").
-   - Bundle ID `dev.deye.monitor.ios`, SKU `deye-monitor-ios`.
-2. Xcode: scheme **DeyeMonitoriOS**, device **Any iOS Device (arm64)** → **Product → Archive**.
-3. In the Organizer: **Distribute App → App Store Connect → Upload** (automatic signing).
-4. Wait about 10–20 minutes for processing. In App Store Connect → **TestFlight**:
-   - **Internal Testing** → add yourself. You can install right away, with no Apple review.
-   - **External Testing** (up to 10,000 people by email or public link) needs a short beta review (~1 day).
-5. On the iPhone, install the **TestFlight** app from the App Store and accept the invite.
+### 1.2 Угоди
 
-Each upload needs a higher build number. Bump `CURRENT_PROJECT_VERSION` in
-`project.yml` (or `MARKETING_VERSION` for a new version) and run `xcodegen generate`.
+App Store Connect → **Business** (або *Agreements, Tax, and Banking*).
+Прийміть актуальну **Apple Developer Program License Agreement**. Для безкоштовного
+застосунку податки й банк заповнювати не треба.
 
-## 3. iOS: public App Store release
+### 1.3 Ідентифікатори (перевірка)
 
-In App Store Connect → your app → **iOS App 1.0**:
+Xcode вже зареєстрував їх, коли я збирав і архівував проєкт.
+Перевірте на https://developer.apple.com/account/resources/identifiers:
+`dev.deye.monitor`, `dev.deye.monitor.widget`, `dev.deye.monitor.ios`,
+`dev.deye.monitor.ios.widget`, усі з увімкненою capability **App Groups**.
+Якщо чогось нема, відкрийте проєкт у Xcode, виберіть відповідну схему →
+**Product → Archive**, і Xcode створить відсутнє сам.
 
-- **Screenshots**: 6.9" iPhone (1320×2868) is required; iPad 13" only if you keep iPad support.
-  Get them in the Simulator with ⌘S.
-- Description, keywords, support URL (the GitHub repo works) and **Privacy Policy URL**
-  (required). The app collects no data, so a one-page "Deye Monitor does not collect any data"
-  file in the repo (e.g. GitHub Pages) is enough.
-- **App Privacy** → "Data Not Collected".
-- Category: Utilities. Age rating: questionnaire, all "No" → 4+.
-- **App Review Information** → Notes. This matters because the reviewer has no inverter:
-  > The app reads a Deye solar inverter through its Solarman Wi‑Fi data logger on the
-  > local network (TCP 8899). Without such hardware it shows the setup screen. A demo
-  > video is attached / available at <link>.
-  Attach a short screen recording from your phone. Without one, the app is often rejected
-  under Guideline 2.1 ("cannot verify functionality").
-- **Do not use "Deye" as the main word in the name or icon.** It is someone else's trademark
-  (Guideline 5.2.1). Use something like "Solar Monitor for Deye inverters" (the description
-  can say "compatible with Deye/Sunsynk"). Our icon is original artwork in blue with a sun,
-  not the Deye logo.
-- Pick the build → **Add for Review → Submit**. Review usually takes 1–2 days.
+### 1.4 Записи застосунків у App Store Connect
 
-Encryption: `ITSAppUsesNonExemptEncryption = NO` is already set in Info.plist, so there is no export questionnaire.
+**Apps → + → New App**, двічі:
+
+| Поле | iPhone | Mac |
+|---|---|---|
+| Platforms | iOS | macOS |
+| Name | унікальна назва в App Store, напр. **"Solar Monitor for Deye"** | можна ту саму |
+| Primary language | English (або Ukrainian) | |
+| Bundle ID | `dev.deye.monitor.ios` | `dev.deye.monitor` |
+| SKU | `deye-monitor-ios` | `deye-monitor-mac` |
+| User Access | Full Access | Full Access |
+
+> ⚠️ **Назва.** "Deye" — чужа торгова марка. Назву "Deye Monitor" Apple
+> найімовірніше відхилить (Guideline 5.2.1). Беріть щось на зразок *"Solar Monitor
+> for Deye"* / *"Inverter Monitor – Solarman"*, а в описі пишіть
+> "compatible with Deye / Sunsynk hybrid inverters". Назва під іконкою
+> (CFBundleDisplayName) може лишатись коротшою.
+
+Без цих записів завантаження з CI падає з помилкою *"No suitable application records were found"*.
+
+### 1.5 Privacy Policy
+
+Файл уже є: [`docs/PRIVACY.md`](PRIVACY.md).
+URL для App Store Connect: `https://github.com/mrigne/deye-monitor/blob/main/docs/PRIVACY.md`
 
 ---
 
-## 4. macOS: Mac App Store
+## Частина 2. Випуск нової версії (щоразу)
 
-The current macOS build (`.pkg` from GitHub Releases) uses **Developer ID**. It is not
-sandboxed, installs a LaunchAgent for all users, and its widget reads
-`~/Library/Application Support`. The Mac App Store does not allow any of that, so the store
-version needs a separate configuration:
+```bash
+git tag v1.2.0
+git push origin v1.2.0
+```
 
-| Needed for the Mac App Store | Change |
+У GitHub → **Actions** запускаються:
+- **Release** — `.pkg` на сторінці GitHub Releases;
+- **App Store** — дві задачі (`ios`, `macos`): archive → cloud signing → upload.
+  У *Summary* буде рядок "uploaded — see TestFlight".
+
+Версію (`1.2.0`) CI бере з тегу. Номер збірки ставиться автоматично
+(номер запуску GitHub), тож він завжди зростає.
+
+Завантажити без тегу: **Actions → App Store → Run workflow** → `both` / `ios` / `macos`.
+Версія тоді береться з `MARKETING_VERSION` у `project.yml`.
+
+Через 10–30 хв Apple обробить збірку і надішле email *"has completed processing"*.
+
+Без CI те саме можна зробити з Xcode: схема `DeyeMonitoriOS` (пристрій *Any iOS Device*)
+або `DeyeMonitorMAS` (*Any Mac*) → **Product → Archive → Distribute App →
+App Store Connect → Upload**.
+
+---
+
+## Частина 3. TestFlight (до публікації)
+
+App Store Connect → застосунок → **TestFlight**.
+
+- **Internal Testing** → *+* → група → додайте себе. Збірка доступна одразу, без рецензії.
+- **External Testing**: до 10 000 людей, за email або публічним посиланням. Перша збірка
+  проходить коротку бета-рецензію (~1 день).
+- Встановлення:
+  - на iPhone — застосунок **TestFlight** з App Store;
+  - на Mac — **TestFlight** з Mac App Store.
+
+Шифрування вже задекларовано в Info.plist (`ITSAppUsesNonExemptEncryption = NO`),
+тож питань про export compliance не буде.
+
+---
+
+## Частина 4. Подача на рецензію і реліз
+
+App Store Connect → застосунок → вкладка платформи → версія **1.x (Prepare for Submission)**.
+
+### 4.1 Сторінка версії
+
+| Поле | Що вписати |
 |---|---|
-| App Sandbox | `com.apple.security.app-sandbox = true` + `com.apple.security.network.client = true` (TCP to the logger) |
-| App ↔ widget data | App Group `CR2SHW9GDN.dev.deye.monitor` (on macOS the group is prefixed with the Team ID) instead of `~/Library/Application Support`, same as on iOS |
-| Remove the LaunchAgent / pkg | Autostart via `SMAppService.mainApp.register()` (a "Launch at login" toggle in Settings) |
-| Widget | Remove the `temporary-exception` entitlement (it gets rejected) |
-| Signing | "Apple Distribution" + "Mac Installer Distribution" certificates (Xcode creates them itself in Automatic signing) |
+| **Screenshots** | iPhone 6.9" — **1320×2868** (обов'язково). Якщо лишаєте iPad — ще iPad 13" **2064×2752**. Mac — **2880×1800** (або 1440×900). Від 1 до 10 штук. |
+| Promotional Text | необов'язково |
+| **Description** | що робить: дані інвертора напряму через Wi‑Fi‑логер Solarman, віджети, без хмари |
+| Keywords | `solar,inverter,deye,sunsynk,solarman,battery,pv,widget,energy` |
+| **Support URL** | `https://github.com/mrigne/deye-monitor` |
+| Marketing URL | необов'язково |
+| Version / Copyright | `2026 Ihor Nerozia` |
+| **Build** | **+** → збірка, яку завантажив CI |
 
-After that change the steps are the same as for iOS:
+**Скріншоти:**
+- *iPhone:* симулятор **iPhone 18 Pro Max** (екран 6.9") → застосунок → **⌘S**
+  (файл зберігається на робочий стіл у потрібному розмірі). Зробіть 3–4: головний екран,
+  параметри, віджет на домашньому екрані, екран блокування.
+- *Mac:* відкрийте панель з рядка меню та вікно Parameters, натисніть ⇧⌘5 і
+  збережіть, а потім обріжте зображення до 2880×1800 (Preview → Tools → Adjust Size).
 
-1. App Store Connect → **+ New App** → platform **macOS**, Bundle ID `dev.deye.monitor`
-   (or use the iOS record's bundle ID if you want one "Universal Purchase" for iPhone and Mac).
-2. Xcode: scheme **DeyeMonitor**, destination **Any Mac** → **Product → Archive →
-   Distribute App → App Store Connect → Upload**.
-3. TestFlight for Mac works the same way (TestFlight app on the Mac).
-4. Screenshots: 2880×1800 or 1440×900 (the menu bar panel, the parameters window, the widget).
-   The privacy, review notes and name-trademark requirements are the same as in section 3.
+### 4.2 App Information (ліве меню)
 
-GitHub Releases (Developer ID `.pkg`) and the Mac App Store can coexist, because they are
-different builds of the same code.
+- **Category**: Utilities (secondary: Weather або Lifestyle).
+- **Content Rights**: "does not contain third-party content".
+- **Age Rating**: заповнити анкету, всі відповіді "None/No" → 4+.
+- **Privacy Policy URL**: див. 1.5.
+
+### 4.3 App Privacy (ліве меню)
+
+**Get Started → Data Types → "No, we do not collect data from this app"** → Publish.
+
+### 4.4 Pricing and Availability
+
+Price: **Free (0)**. Availability: всі країни (або виберіть потрібні).
+
+### 4.5 App Review Information (внизу сторінки версії)
+
+- Contact: ваше ім'я, телефон, email.
+- Sign-in required: **No**.
+- **Notes**:
+  > This app reads a Deye/Sunsynk hybrid solar inverter through its Solarman
+  > Wi‑Fi data logger on the user's local network (TCP port 8899, Solarman V5 /
+  > Modbus). It has no server or account. Without such hardware the app shows the
+  > setup screen; a screen recording of it working with a real inverter is attached.
+- **Attachment**: 20–40 с відео з телефона (Пункт керування → запис екрана),
+  де видно: введення IP/SN → живі дані → віджет. **Обов'язково.** Без відео часто
+  відхиляють за Guideline 2.1 ("can't verify functionality").
+
+### 4.6 Відправка
+
+**Add for Review → Submit to App Review**. Зазвичай перевірка триває 24–48 год.
+Перед подачею оберіть *Version Release*:
+- *Manually release* — після схвалення ви самі натискаєте **Release**;
+- *Automatically* — застосунок виходить одразу після схвалення.
+
+Mac і iPhone подаються окремо (різні записи), але кроки однакові.
+
+### 4.7 Оновлення
+
+Новий тег → CI завантажує збірку → в App Store Connect **+ (поруч з версією) →
+нова версія 1.x** → "What's New" → вибрати збірку → Submit.
+
+---
+
+## Частина 5. Чим Mac App Store версія відрізняється від `.pkg`
+
+| | `.pkg` (GitHub) | Mac App Store |
+|---|---|---|
+| Схема | `DeyeMonitor` | `DeyeMonitorMAS` (прапорець `MAS`) |
+| Sandbox | ні | так (`network.client`) |
+| Дані для віджета | `~/Library/Application Support/DeyeMonitor` | App Group `CR2SHW9GDN.dev.deye.monitor` |
+| Автозапуск | LaunchAgent для всіх користувачів | перемикач **Launch at login** у налаштуваннях застосунку |
+| Префіл IP/SN інсталятором | так (`--prefill`) | ні |
+
+Обидві версії мають однаковий Bundle ID. На одному Mac краще тримати лише одну
+з них. Перед установкою з App Store видаліть `.pkg`-версію:
+`sudo bash DeyeMonitor-uninstall.sh`.
+
+---
+
+## Частина 6. Поставити на свій iPhone без App Store (розробка)
+
+1. iPhone: **Settings → Privacy & Security → Developer Mode → On**.
+2. Підключіть кабелем, натисніть *Trust*.
+3. Відкрийте проєкт:
+   ```bash
+   open DeyeMonitor.xcodeproj
+   ```
+   Схема **DeyeMonitoriOS**, ваш iPhone → ⌘R.
+4. На телефоні: IP і SN → **Save** → **Allow** Local Network.
+5. Віджети: затисніть домашній екран → **Edit → Add Widget → Deye Monitor**.
+   На екрані блокування: затисніть його → **Customize**.
+
+---
+
+## Якщо щось пішло не так
+
+| Помилка в CI | Причина / що робити |
+|---|---|
+| `Cloud signing permission error` / `No signing certificate "iOS Distribution"` | Ключ API не Admin → п. 1.1 |
+| `No suitable application records were found` | Нема запису застосунку → п. 1.4 |
+| `The bundle version must be higher than the previously uploaded version` | Перезапустіть workflow, номер збірки зросте |
+| `Provisioning profile doesn't include the App Groups entitlement` | Відкрийте проєкт у Xcode, Archive відповідної схеми локально (Xcode оновить профілі) і перезапустіть CI |
+| `Missing required icon` / `Invalid Info.plist` | Напишіть мені з текстом помилки з логу |
+| Рецензія: Guideline 2.1 (не змогли перевірити) | Додайте/оновіть відео і відповідайте в Resolution Center |
+| Рецензія: Guideline 5.2.1 (торгова марка) | Змініть назву (п. 1.4), заберіть "Deye" з назви/субтитру |

@@ -48,6 +48,10 @@ packaging/build_pkg.sh                              # → dist/DeyeMonitor-1.0.p
 VERSION=1.2.0 packaging/build_pkg.sh --prefill .env # preset INVERTER_IP / LOGGER_SERIAL for all users
 ```
 
+App Store (iPhone) and Mac App Store builds are uploaded to App Store Connect
+by `.github/workflows/appstore.yml` on the same `v*` tags — full guide in
+[docs/PUBLISHING.md](docs/PUBLISHING.md).
+
 Signed + notarized build: see the variables at the top of
 `packaging/build_pkg.sh`. Releases are built by GitHub Actions on `v*` tags
 (`.github/workflows/release.yml`).

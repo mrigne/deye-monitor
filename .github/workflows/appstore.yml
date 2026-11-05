@@ -1,0 +1,108 @@
+# Push a tag like v1.1.0 (or run manually) → the iOS app and the Mac App Store
+# build are archived, signed by Apple's cloud signing and uploaded to
+# App Store Connect. They then appear under TestFlight; you submit them for
+# review from the App Store Connect website.
+#
+# Uses the same App Store Connect API key secrets as release.yml:
+#   NOTARY_KEY_P8   base64 of AuthKey_XXXX.p8   (key role must be **Admin** —
+#   NOTARY_KEY_ID   key id                        cloud signing needs it)
+#   NOTARY_ISSUER   issuer id
+#   APPLE_TEAM_ID   CR2SHW9GDN
+# The apps must already exist in App Store Connect (see docs/PUBLISHING.md).
+name: App Store
+
+on:
+  push:
+    tags: ['v*']
+  workflow_dispatch:
+    inputs:
+      platforms:
+        description: 'What to upload'
+        type: choice
+        options: [both, ios, macos]
+        default: both
+
+jobs:
+  upload:
+    runs-on: macos-15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: ios
+            scheme: DeyeMonitoriOS
+            destination: generic/platform=iOS
+          - platform: macos
+            scheme: DeyeMonitorMAS
+            destination: generic/platform=macOS
+    env:
+      HAS_KEY: ${{ secrets.NOTARY_KEY_P8 != '' }}
+      WANTED: ${{ github.event.inputs.platforms || 'both' }}
+    steps:
+      - name: Skip?
+        id: gate
+        run: |
+          if [ "$WANTED" = both ] || [ "$WANTED" = "${{ matrix.platform }}" ]; then echo "run=1" >> "$GITHUB_OUTPUT"; fi
+          if [ "$HAS_KEY" != true ]; then echo "::warning::NOTARY_KEY_P8 secret missing — nothing uploaded"; echo "run=" >> "$GITHUB_OUTPUT"; fi
+
+      - uses: actions/checkout@v5
+        if: steps.gate.outputs.run
+
+      - name: Select Xcode 16
+        if: steps.gate.outputs.run
+        run: sudo xcode-select -s "$(ls -d /Applications/Xcode_16*.app | sort -V | tail -1)"
+
+      - name: Version
+        if: steps.gate.outputs.run
+        run: |
+          if [[ "$GITHUB_REF_NAME" == v* ]]; then V="${GITHUB_REF_NAME#v}"
+          else V="$(grep -m1 'MARKETING_VERSION' project.yml | sed 's/.*: *"\{0,1\}\([^"]*\)"\{0,1\}/\1/')"; fi
+          echo "VERSION=$V" >> "$GITHUB_ENV"
+          # App Store build numbers must always increase.
+          echo "BUILD=${{ github.run_number }}${{ github.run_attempt }}" >> "$GITHUB_ENV"
+
+      - name: API key
+        if: steps.gate.outputs.run
+        env:
+          NOTARY_KEY_P8: ${{ secrets.NOTARY_KEY_P8 }}
+        run: echo "$NOTARY_KEY_P8" | base64 --decode > "$RUNNER_TEMP/asc_key.p8"
+
+      - name: Archive
+        if: steps.gate.outputs.run
+        run: |
+          xcodebuild -project DeyeMonitor.xcodeproj -scheme "${{ matrix.scheme }}" \
+            -configuration Release -destination "${{ matrix.destination }}" \
+            -archivePath "$RUNNER_TEMP/app.xcarchive" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc_key.p8" \
+            -authenticationKeyID "${{ secrets.NOTARY_KEY_ID }}" \
+            -authenticationKeyIssuerID "${{ secrets.NOTARY_ISSUER }}" \
+            MARKETING_VERSION="$VERSION" CURRENT_PROJECT_VERSION="$BUILD" \
+            DEVELOPMENT_TEAM="${{ secrets.APPLE_TEAM_ID }}" \
+            archive -quiet
+
+      - name: Upload to App Store Connect
+        if: steps.gate.outputs.run
+        run: |
+          cat > "$RUNNER_TEMP/export.plist" <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0"><dict>
+            <key>method</key><string>app-store-connect</string>
+            <key>destination</key><string>upload</string>
+            <key>teamID</key><string>${{ secrets.APPLE_TEAM_ID }}</string>
+            <key>signingStyle</key><string>automatic</string>
+            <key>manageAppVersionAndBuildNumber</key><false/>
+          </dict></plist>
+          EOF
+          xcodebuild -exportArchive -archivePath "$RUNNER_TEMP/app.xcarchive" \
+            -exportOptionsPlist "$RUNNER_TEMP/export.plist" -exportPath "$RUNNER_TEMP/export" \
+            -allowProvisioningUpdates \
+            -authenticationKeyPath "$RUNNER_TEMP/asc_key.p8" \
+            -authenticationKeyID "${{ secrets.NOTARY_KEY_ID }}" \
+            -authenticationKeyIssuerID "${{ secrets.NOTARY_ISSUER }}"
+          echo "### ${{ matrix.platform }} $VERSION ($BUILD) uploaded — see TestFlight in App Store Connect" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Clean up
+        if: always()
+        run: rm -f "$RUNNER_TEMP/asc_key.p8"

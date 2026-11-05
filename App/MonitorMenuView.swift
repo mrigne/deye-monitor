@@ -1,5 +1,8 @@
 import SwiftUI
 import AppKit
+#if MAS
+import ServiceManagement
+#endif
 
 struct MonitorMenuView: View {
     @EnvironmentObject var store: MonitorStore
@@ -7,6 +10,7 @@ struct MonitorMenuView: View {
     @State private var showSettings = false
     @State private var ipDraft = ""
     @State private var serialDraft = ""
+    @State private var loginItemTick = false
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
@@ -178,6 +182,16 @@ struct MonitorMenuView: View {
                 Text("2 min").tag(120)
                 Text("5 min").tag(300)
             }
+            #if MAS
+            // App Store build: no installer LaunchAgent, so offer login-item start.
+            Toggle("Launch at login", isOn: Binding(
+                get: { SMAppService.mainApp.status == .enabled },
+                set: { on in
+                    try? on ? SMAppService.mainApp.register() : SMAppService.mainApp.unregister()
+                    loginItemTick.toggle()
+                }))
+                .id(loginItemTick)
+            #endif
         }
     }
 

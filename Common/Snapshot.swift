@@ -24,8 +24,8 @@ enum SnapshotFile {
     }
 
     static var directory: URL {
-        #if os(iOS)
-        // iOS: the app and its widget share an App Group container.
+        #if os(iOS) || MAS
+        // iOS / Mac App Store: the app and its widget share an App Group container.
         if let group = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: SharedSettings.appGroup) {
             return group.appendingPathComponent("Library/Application Support/DeyeMonitor", isDirectory: true)
         }
@@ -69,10 +69,14 @@ enum SnapshotFile {
 /// /Library/Preferences prefill keeps working); iOS uses the App Group so the
 /// widget can read the inverter address and talk to it itself.
 enum SharedSettings {
+    #if os(iOS)
     static let appGroup = "group.dev.deye.monitor"
+    #else
+    static let appGroup = "CR2SHW9GDN.dev.deye.monitor"   // macOS groups are Team-ID prefixed
+    #endif
 
     static var defaults: UserDefaults {
-        #if os(iOS)
+        #if os(iOS) || MAS
         return UserDefaults(suiteName: appGroup) ?? .standard
         #else
         return .standard
