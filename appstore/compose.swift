@@ -1,6 +1,6 @@
 // Builds App Store screenshots from the raw captures in appstore/raw.
 // Usage: swift appstore/compose.swift   (run from the repo root)
-// Output: appstore/iphone/*.png (1320×2868) and appstore/mac/*.png (2880×1800)
+// Output: appstore/iphone/*.png (1320×2868), appstore/iphone-6.3/*.png (1206×2622) and appstore/mac/*.png (2880×1800)
 import AppKit
 import CoreText
 
@@ -87,18 +87,20 @@ let phone: [(String, String, String)] = [
     ("ios-2-params", "Show exactly\nwhat you need", "Every inverter value — even raw registers"),
     ("ios-5-settings", "Straight to\nyour inverter", "Connects to the Solarman Wi‑Fi logger on your home network. No cloud, no account."),
 ]
-for (i, (file, title, sub)) in phone.enumerated() {
-    let W = 1320, H = 2868
+for (W, H, folder) in [(1320, 2868, "iphone"), (1206, 2622, "iphone-6.3")] {
+  let k = CGFloat(W) / 1320                        // layout is designed at 1320 wide
+  for (i, (file, title, sub)) in phone.enumerated() {
     let c = canvas(W, H)
-    var y: CGFloat = 170
-    y += text(c, title, CGRect(x: 80, y: y, width: CGFloat(W) - 160, height: 0), size: 112, weight: .bold) + 36
-    y += text(c, sub, CGRect(x: 110, y: y, width: CGFloat(W) - 220, height: 0), size: 50, weight: .medium, color: rgb(0xFFFFFF, 0.85))
+    var y: CGFloat = 170 * k
+    y += text(c, title, CGRect(x: 80 * k, y: y, width: CGFloat(W) - 160 * k, height: 0), size: 112 * k, weight: .bold) + 36 * k
+    y += text(c, sub, CGRect(x: 110 * k, y: y, width: CGFloat(W) - 220 * k, height: 0), size: 50 * k, weight: .medium, color: rgb(0xFFFFFF, 0.85))
     let shot = load("raw/\(file).png")
-    let shotW: CGFloat = 1030
+    let shotW: CGFloat = 1030 * k
     let shotH = shotW * CGFloat(shot.height) / CGFloat(shot.width)
-    let top = max(y + 90, CGFloat(H) - shotH + 120)       // let the phone run off the bottom edge
-    image(c, shot, CGRect(x: (CGFloat(W) - shotW) / 2, y: top, width: shotW, height: shotH), radius: 120, shadow: 60)
-    save(c, "iphone/\(i + 1)-\(file.replacingOccurrences(of: "ios-", with: "").dropFirst(2)).png")
+    let top = max(y + 90 * k, CGFloat(H) - shotH + 120 * k)   // let the phone run off the bottom edge
+    image(c, shot, CGRect(x: (CGFloat(W) - shotW) / 2, y: top, width: shotW, height: shotH), radius: 120 * k, shadow: 60 * k)
+    save(c, "\(folder)/\(i + 1)-\(file.replacingOccurrences(of: "ios-", with: "").dropFirst(2)).png")
+  }
 }
 
 // MARK: Mac — 2880 × 1800

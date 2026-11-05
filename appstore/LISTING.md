@@ -158,13 +158,14 @@ A screen recording with a real inverter is attached.
 
 | Куди | Файли | Розмір |
 |---|---|---|
-| iPhone 6.9" Display | `appstore/iphone/1-main.png` … `4-settings.png` | 1320×2868 |
+| **iPhone with Dynamic Island (medium display)** — 6.1"/6.3" | `appstore/iphone-6.3/1-main.png` … `4-settings.png` | 1206×2622 |
+| iPhone 6.9" (якщо попросить окремо) | `appstore/iphone/1-main.png` … `4-settings.png` | 1320×2868 |
 | Mac | `appstore/mac/1-menubar.png`, `2-parameters.png` | 2880×1800 |
 
 | Header (Header and Search Results → Header), необов'язково | `appstore/header/header-3840x1646.png` (або `header-5244x2950.png`) | 3840×1646 / 5244×2950 |
 
 Порядок важливий: перший скріншот видно в результатах пошуку.
-Достатньо 6.9" — менші розміри iPhone App Store Connect зменшує сам.
+Обов'язковий тепер розмір 6.3" (1206×2622). Інші розміри iPhone App Store Connect робить сам.
 iPad-скріншоти не потрібні: застосунок тепер лише для iPhone.
 
 Перегенерувати:
