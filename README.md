@@ -1,6 +1,7 @@
 # Deye Monitor
 
 <img width="337" height="439" alt="image" src="https://github.com/user-attachments/assets/f77808dd-610c-4f9a-bad1-94732d66edca" />
+<img width="496" height="210" alt="image" src="https://github.com/user-attachments/assets/e96d4683-69d1-45e3-b4ac-158c603b27bd" />
 
 
 macOS menu bar app + desktop widget for Deye hybrid inverters. It reads the
