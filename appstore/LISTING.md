@@ -145,6 +145,18 @@ The app is independent and states in its description and in Settings → About t
 A screen recording with a real inverter is attached.
 ```
 
+### Notes — Mac (запис «Solar Glance – Menu Bar»)
+
+```
+Solar Glance is a menu bar app: after launch it shows an icon in the menu bar (top-right of the screen) and has no Dock icon or main window. Click the menu bar icon to open the panel.
+
+To review without the hardware: in the panel, click the gear (Settings) and switch on "Demo mode (sample data)". The menu bar, the panel, the Parameters window and the desktop widget (right-click the desktop → Edit Widgets → Solar Glance) then show realistic sample data.
+
+With real hardware the app reads a hybrid solar inverter (Deye and compatible models) through its Solarman Wi‑Fi data logger on the local network (TCP port 8899). It has no server, account or sign-in. Local Network permission is requested only to reach the user's own inverter. "Launch at login" is off by default and only enabled by the user in Settings.
+
+The app is independent and states in its description and in Settings that it is not affiliated with or endorsed by Deye, Sunsynk or Solarman; these names are used only to describe compatibility.
+```
+
 **Attachment**: `appstore/review/solar-glance-review.mp4` — 35 с, реальний інвертор:
 віджети «Not set up» → введення IP/SN → живі дані → pull-to-refresh → параметри →
 віджети з живими даними. Файл не в git, бо в ньому видно IP і SN логера.
