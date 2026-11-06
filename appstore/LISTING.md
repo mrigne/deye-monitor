@@ -147,6 +147,8 @@ A screen recording with a real inverter is attached.
 
 ### Notes — Mac (запис «Solar Glance – Menu Bar»)
 
+Attachment: `appstore/review/solar-glance-mac-review.mp4` (18 с, реальний інвертор: панель → оновлення → вікно Parameters).
+
 ```
 Solar Glance is a menu bar app: after launch it shows an icon in the menu bar (top-right of the screen) and has no Dock icon or main window. Click the menu bar icon to open the panel.
 
